@@ -21,7 +21,7 @@
   "sending...": "正在发送中...",
   "Welcome to Platdot!": "欢迎来到 Platdot！",
   "The current network": "当前网络",
-  "Switch network": "切换网络",
+  "Switch currency": "切换币种",
   "Sign in your Polkadot{.js} the Polkadot plugin": "使用 Polkadot{.js} 插件登录 Polkadot 账户",
   "The extension is detected, please grant the plugin access to the account related permissions": "检测到扩展程序，请授予插件访问帐户相关权限",
   "Available balance": "可用余额",

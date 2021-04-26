@@ -6,7 +6,7 @@ import { PolkadotAccountsContext } from '@polkadot/pages/components/PolkadotAcco
 import EmptyCard from '../components/PdotCards/EmptyCard';
 import { StatusContext, CardContent } from '@polkadot/pages/components';
 import { ActionStatus } from '@polkadot/pages/components/Status/types';
-import { creatStatusInfo, tipInAlaya, tipInPlaton } from '@polkadot/pages/helper/helper';
+import { creatStatusInfo, tipInAlaya, tipInPlaton, tipInXBTC } from '@polkadot/pages/helper/helper';
 import { createDepositTransactionParameters, createApproveTransactionParameters } from '../contract';
 import BigNumber from 'bignumber.js';
 import { NetWorkContext } from '@polkadot/pages/components/NetWorkProvider';
@@ -31,16 +31,23 @@ export default function RedeemContent({className}: Props): React.ReactElement<Pr
   const pdotAmountToBigNumber = (new BigNumber(pdotAmount)).div(1e18).toNumber();
   const amountToBigNumber = new BigNumber(amount);
   const [isChargeEnough, setIsChargeEnough] = useState<boolean>(true);
-  const {platonUnit, netName} = useContext(NetWorkContext);
+  const {platonUnit, netName, localCoin} = useContext(NetWorkContext);
   const [isButtonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
     if (!amount) {
-      netName === 'Alaya' ? setCharge(tipInAlaya.toNumber()) : setCharge(tipInPlaton.toNumber());
+      if(localCoin.coinName === 'KSM'){
+        setCharge(tipInAlaya.toNumber())
+      }else if(localCoin.coinName === 'DOT'){
+        setCharge(tipInPlaton.toNumber())
+      }else{
+        setCharge(0)
+      }
     } else {
       const chargeOfAmount = amountToBigNumber.times(0.001);
-      setCharge(chargeOfAmount.plus(netName === 'Alaya' ? tipInAlaya : tipInPlaton).toNumber());
+
+      setCharge(chargeOfAmount.plus(localCoin.coinName === 'KSM' ? tipInAlaya : localCoin.coinName === 'DOT' ? tipInPlaton: tipInXBTC).toNumber());
     }
   }, [amount, netName]);
 

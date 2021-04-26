@@ -74,11 +74,11 @@ export const NetWorkProvider: FC = ({children}) => {
         whiteIcon: 'http://lc-XLoqMObG.cn-n1.lcfile.com/519b3e5ce282616f1cd7.svg',
         matchingNode: 'wss://polkadot.elara.patract.io'
       });
-    } else if (polkadotSetting.apiUrl === 'wss://testnet-2.chainx.org/ws') {
+    } else if (polkadotSetting.apiUrl === 'wss://chainx.supercube.pro/ws') {
       setCoin({
         coinName: 'XBTC',
         whiteIcon: 'http://lc-XLoqMObG.cn-n1.lcfile.com/e19d81cbc3ad30b636cd.svg',
-        matchingNode: 'wss://testnet-2.chainx.org/ws'
+        matchingNode: 'wss://chainx.supercube.pro/ws'
       });
       setNetWork({
         ...netWork,

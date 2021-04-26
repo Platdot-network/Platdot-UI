@@ -21,7 +21,7 @@ if(netWorkInfo.platonNetUrl){
 let erc20Address: string;
 if(polkadotSetting.apiUrl === 'wss://supercube.pro/ws'){
   erc20Address = 'atp18uylvwsppggu5wn458yxe0stetr7tpytyllaxc';
-}else if(polkadotSetting.apiUrl === 'wss://testnet-2.chainx.org/ws'){
+}else if(polkadotSetting.apiUrl === 'wss://chainx.supercube.pro/ws'){
   erc20Address = 'atp15r65x5lwydl2m24c8yjz35pmykfvynd9gvf86m'
 }else{
   erc20Address = 'atp18uylvwsppggu5wn458yxe0stetr7tpytyllaxc'

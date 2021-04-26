@@ -25,11 +25,13 @@ const  classes = (...classNames: (boolean | null | string | undefined)[]): strin
 
 const tipInAlaya: BigNumber = new BigNumber(0.03)
 const tipInPlaton: BigNumber = new BigNumber(0.5)
+const tipInXBTC = 0
 
 export {
   creatStatusInfo,
   toPrecision,
   classes,
   tipInAlaya,
-  tipInPlaton
+  tipInPlaton,
+  tipInXBTC
 }

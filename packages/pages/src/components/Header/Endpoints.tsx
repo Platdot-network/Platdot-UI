@@ -32,7 +32,7 @@ function Endpoints({className = ''}: EndpointProps): React.ReactElement<Endpoint
     },
     {
       name: `XBTC`,
-      matchingNode: 'wss://testnet-2.chainx.org/ws',
+      matchingNode: 'wss://chainx.supercube.pro/ws',
       CoinIcon: 'http://lc-XLoqMObG.cn-n1.lcfile.com/23004d06cafd179780c1.svg',
       whiteIcon: 'http://lc-XLoqMObG.cn-n1.lcfile.com/e19d81cbc3ad30b636cd.svg'
     },
@@ -45,7 +45,7 @@ function Endpoints({className = ''}: EndpointProps): React.ReactElement<Endpoint
     },
     {
       name: `XBTC`,
-      matchingNode: 'wss://testnet-2.chainx.org/ws',
+      matchingNode: 'wss://chainx.supercube.pro/ws',
       CoinIcon: 'http://lc-XLoqMObG.cn-n1.lcfile.com/23004d06cafd179780c1.svg',
       whiteIcon: 'http://lc-XLoqMObG.cn-n1.lcfile.com/e19d81cbc3ad30b636cd.svg'
     },
@@ -63,7 +63,7 @@ function Endpoints({className = ''}: EndpointProps): React.ReactElement<Endpoint
         </div>
       </div>
 
-      <Button className="ui-tabEndpoint" isBasic label={t('Switch network')} onClick={_toggleEndpoints}/>
+      <Button className="ui-tabEndpoint" isBasic label={t('Switch currency')} onClick={_toggleEndpoints}/>
       {isEndpoints && (
         <CoinInfoList setIsOpen={setIsEndpoints} list={coinList}/>
       )}
