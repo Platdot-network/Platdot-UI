@@ -29,7 +29,7 @@ module.exports = merge(
       }),
       new AliosscdnWebpackPlugin({
         https: true,
-        directoryInOss: 'platdot/v1.1.3',
+        directoryInOss: 'platdot/v1.1.4',
         filesPath: `${__dirname}/build`,
         region: CLIENT.region,
         accessKeyId: CLIENT.accessKeyId,
