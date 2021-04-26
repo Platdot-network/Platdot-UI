@@ -7,11 +7,10 @@ import { web3FromAddress } from '@polkadot/extension-dapp';
 import { useApi } from '@polkadot/react-hooks';
 import { StatusContext } from '@polkadot/pages/components';
 import { ActionStatus } from '@polkadot/pages/components/Status/types';
-import { creatStatusInfo, tipInAlaya, tipInPlaton } from '@polkadot/pages/helper/helper';
+import { creatStatusInfo, tipInAlaya, tipInPlaton, tipInXBTC } from '@polkadot/pages/helper/helper';
 import BigNumber from 'bignumber.js';
 import { NetWorkContext } from '@polkadot/pages/components/NetWorkProvider';
 import { useTranslation } from '@polkadot/pages/components/translate';
-import { ApiContext } from '@polkadot/react-api';
 import Card from '@polkadot/pages/components/Card/Card';
 import { CardContent } from '@polkadot/pages/components';
 import EmptyCard from '@polkadot/pages/components/PdotCards/EmptyCard';
@@ -34,16 +33,21 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
   const amountToBigNumber = new BigNumber(amount);
   const usableBalanceToBigNumber = (new BigNumber(usableBalance)).div(1e12).toNumber();
   const {netName, localCoin} = useContext(NetWorkContext);
-  const {formatProperties} = useContext(ApiContext);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isButtonDisabled, setButtonDisabled] = useState<boolean>(false);
 
   useEffect(() => {
     if (!amount) {
-      netName === 'Alaya' ? setCharge(tipInAlaya.toNumber()) : setCharge(tipInPlaton.toNumber());
+      if (localCoin.coinName === 'KSM') {
+        setCharge(tipInAlaya.toNumber());
+      } else if (localCoin.coinName === 'DOT') {
+        setCharge(tipInPlaton.toNumber());
+      } else {
+        setCharge(0);
+      }
     } else {
       const chargeOfAmount = amountToBigNumber.times(0.001);
-      setCharge(chargeOfAmount.plus(netName === 'Alaya' ? tipInAlaya : tipInPlaton).toNumber());
+      setCharge(chargeOfAmount.plus(localCoin.coinName === 'KSM' ? tipInAlaya : localCoin.coinName === 'DOT' ? tipInPlaton: tipInXBTC).toNumber());
     }
   }, [amount, netName]);
 
