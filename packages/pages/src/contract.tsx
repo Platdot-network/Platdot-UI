@@ -1699,12 +1699,22 @@ const createApproveTransactionParameters = (from: string, amount: BigNumber) => 
 }
 
 const createDepositTransactionParameters = (from: string, to: string, amount: BigNumber) => {
+  let chainId: number;
+  let resourceId: string;
+
+  if(coinInfo.coinName === 'XBTC'){
+    chainId = 3
+    resourceId = "0x0000000000000000000000000000000000000000000000000000000000000001"
+  }else{
+    chainId = 1
+    resourceId = "0x0000000000000000000000000000000000000000000000000000000000000000"
+  }
   return {
     nonce: '0x00', // ignored by MetaMask
     to: bridgeAddress,
     from, // must match user's active address.
     value: '0', // Only required to send ether to the recipient from the initiating external account.
-    data: bridge_contract.methods.deposit(1, resourceID, createERCDepositData(amount.toNumber(), 66, bytesToHex(toUtf8Bytes(addressToPublicKey(to))))).encodeABI(),
+    data: bridge_contract.methods.deposit(chainId, resourceId, createERCDepositData(amount.toNumber(), 66, bytesToHex(toUtf8Bytes(addressToPublicKey(to))))).encodeABI(),
   };
 };
 
