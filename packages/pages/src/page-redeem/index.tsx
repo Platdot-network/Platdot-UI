@@ -46,8 +46,13 @@ export default function RedeemContent({className}: Props): React.ReactElement<Pr
       }
     } else {
       const chargeOfAmount = amountToBigNumber.times(0.001);
-
-      setCharge(chargeOfAmount.plus(localCoin.coinName === 'KSM' ? tipInAlaya : localCoin.coinName === 'DOT' ? tipInPlaton: tipInXBTC).toNumber());
+      if(localCoin.coinName === 'KSM'){
+        setCharge(chargeOfAmount.plus(tipInAlaya).toNumber())
+      }else if(localCoin.coinName === 'DOT'){
+        setCharge(chargeOfAmount.plus(tipInPlaton).toNumber())
+      }else{
+        setCharge(0)
+      }
     }
   }, [amount, netName]);
 

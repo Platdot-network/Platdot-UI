@@ -35,7 +35,7 @@ export const PolkadotAccountsProvider: FC = ({children}) => {
 
   useEffect(() => {
     let balance$: Subscription;
-    if (uiSettings.get().apiUrl === 'wss://testnet-2.chainx.org/ws') {
+    if (uiSettings.get().apiUrl === 'wss://chainx.supercube.pro/ws') {
       balance$ = interval(1000).pipe(
         switchMap(() => {
           return fromPromise(api.rpc.xassets.getAssetsByAccount(currentAccount));

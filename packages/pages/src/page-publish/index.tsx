@@ -14,6 +14,8 @@ import { useTranslation } from '@polkadot/pages/components/translate';
 import Card from '@polkadot/pages/components/Card/Card';
 import { CardContent } from '@polkadot/pages/components';
 import EmptyCard from '@polkadot/pages/components/PdotCards/EmptyCard';
+import { ApiProps } from '@polkadot/react-api/types';
+import { ApiContext } from '@polkadot/react-api';
 
 interface Props {
   className?: string;
@@ -31,7 +33,9 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
   const [charge, setCharge] = useState(0);
   const [isChargeEnough, setIsChargeEnough] = useState<boolean>(true);
   const amountToBigNumber = new BigNumber(amount);
-  const usableBalanceToBigNumber = (new BigNumber(usableBalance)).div(1e12).toNumber();
+  const {formatProperties} = useContext<ApiProps>(ApiContext);
+
+  const usableBalanceToBigNumber = (new BigNumber(usableBalance)).div(formatProperties? Math.pow(10, formatProperties.tokenDecimals[0]): 1e1).toNumber();
   const {netName, localCoin} = useContext(NetWorkContext);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isButtonDisabled, setButtonDisabled] = useState<boolean>(false);
@@ -47,14 +51,22 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
       }
     } else {
       const chargeOfAmount = amountToBigNumber.times(0.001);
-      setCharge(chargeOfAmount.plus(localCoin.coinName === 'KSM' ? tipInAlaya : localCoin.coinName === 'DOT' ? tipInPlaton: tipInXBTC).toNumber());
+      if(localCoin.coinName === 'KSM'){
+        setCharge(chargeOfAmount.plus(tipInAlaya).toNumber())
+      }else if(localCoin.coinName === 'DOT'){
+        setCharge(chargeOfAmount.plus(tipInPlaton).toNumber())
+      }else{
+        setCharge(0)
+      }
     }
   }, [amount, netName]);
 
   useEffect(() => {
     setIsChargeEnough(usableBalanceToBigNumber > charge && usableBalanceToBigNumber > amountToBigNumber.toNumber() + charge);
   }, [charge, usableBalance, amountToBigNumber]);
-
+  console.log('isChargeEnough', isChargeEnough)
+  console.log('usableBalanceToBigNumber', usableBalanceToBigNumber)
+  console.log('charge', charge)
   useEffect(() => {
     if (!isChargeEnough) {
       setErrorMessage(t('The balance is insufficient'));
