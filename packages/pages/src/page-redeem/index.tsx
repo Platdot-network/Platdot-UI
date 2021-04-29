@@ -42,7 +42,7 @@ export default function RedeemContent({className}: Props): React.ReactElement<Pr
       }else if(localCoin.coinName === 'DOT'){
         setCharge(tipInPlaton.toNumber())
       }else{
-        setCharge(0)
+        setCharge(tipInXBTC)
       }
     } else {
       const chargeOfAmount = amountToBigNumber.times(0.001);
@@ -51,7 +51,7 @@ export default function RedeemContent({className}: Props): React.ReactElement<Pr
       }else if(localCoin.coinName === 'DOT'){
         setCharge(chargeOfAmount.plus(tipInPlaton).toNumber())
       }else{
-        setCharge(0)
+        setCharge(tipInXBTC)
       }
     }
   }, [amount, netName]);

@@ -204,7 +204,12 @@ function Api({ children, store, url }: Props): React.ReactElement<Props> | null 
     const types = getDevTypes();
 
     api = new ApiPromise(options({ provider, registry, signer, types, typesBundle, typesChain, typesSpec }));
-
+    const newTypes = {
+      "Address": "IndicesLookupSource",
+      "LookupSource": "IndicesLookupSource",
+      "PalletId": "LockIdentifier"
+    }
+    api.registerTypes(newTypes);
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));
     api.on('error', (error: Error) => setApiError(error.message));

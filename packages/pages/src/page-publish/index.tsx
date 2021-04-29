@@ -47,7 +47,7 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
       } else if (localCoin.coinName === 'DOT') {
         setCharge(tipInPlaton.toNumber());
       } else {
-        setCharge(0);
+        setCharge(tipInXBTC);
       }
     } else {
       const chargeOfAmount = amountToBigNumber.times(0.001);
@@ -56,7 +56,7 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
       }else if(localCoin.coinName === 'DOT'){
         setCharge(chargeOfAmount.plus(tipInPlaton).toNumber())
       }else{
-        setCharge(0)
+        setCharge(tipInXBTC)
       }
     }
   }, [amount, netName]);
@@ -64,9 +64,7 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
   useEffect(() => {
     setIsChargeEnough(usableBalanceToBigNumber > charge && usableBalanceToBigNumber > amountToBigNumber.toNumber() + charge);
   }, [charge, usableBalance, amountToBigNumber]);
-  console.log('isChargeEnough', isChargeEnough)
-  console.log('usableBalanceToBigNumber', usableBalanceToBigNumber)
-  console.log('charge', charge)
+
   useEffect(() => {
     if (!isChargeEnough) {
       setErrorMessage(t('The balance is insufficient'));
@@ -97,12 +95,21 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
         try {
           setButtonDisabled(true);
           const injector = await web3FromAddress(currentAccount);
-          const amountToPrecision = amountToBigNumber.times(1e12).toNumber();
+          const amountToPrecision = amountToBigNumber.times(Math.pow(10, formatProperties.tokenDecimals[0])).toNumber();
           api.setSigner(injector.signer);
-          api.tx.utility.batch([
-            api.tx.balances.transferKeepAlive('5F3NgH5umL6dg6rmtKEm6m7z75YZwkBkyTybksL9CZfXxvPT', amountToPrecision),
-            api.tx.system.remark(platonAccount)
-          ])
+          let param: any
+          if(localCoin.coinName === 'XBTC'){
+            param = [
+              api.tx.xAssets.transfer('5F3NgH5umL6dg6rmtKEm6m7z75YZwkBkyTybksL9CZfXxvPT', 1, amountToPrecision),
+              api.tx.system.remark(platonAccount)
+            ]
+          }else{
+            param = [
+              api.tx.balances.transferKeepAlive('5F3NgH5umL6dg6rmtKEm6m7z75YZwkBkyTybksL9CZfXxvPT', amountToPrecision),
+              api.tx.system.remark(platonAccount)
+            ]
+          }
+          api.tx.utility.batch(param)
             .signAndSend(
               currentAccount,
               {signer: injector.signer},
