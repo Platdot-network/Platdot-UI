@@ -23,7 +23,7 @@ interface Props {
 
 export default function PublicContent({className = ''}: Props): React.ReactElement<Props> {
   const {t} = useTranslation();
-  const {platonAccount, hasPlatonAccount, PublishRecords, fetchTransfers} = useContext(PlatonAccountsContext);
+  const {platonAccount, hasPlatonAccount, PublishRecords} = useContext(PlatonAccountsContext);
   const publishLength = PublishRecords.length;
   const {hasAccounts, currentAccount, usableBalance} = useContext(PolkadotAccountsContext);
   const [amount, setAmount] = useState<string>('0');
@@ -80,7 +80,6 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
       if (formatStatusData.status.inBlock) {
         creatStatusInfo(status, 'success', t('The publish is successful'));
         queueAction(status as ActionStatus);
-        fetchTransfers(platonAccount);
         setButtonDisabled(false);
       }
     } else {

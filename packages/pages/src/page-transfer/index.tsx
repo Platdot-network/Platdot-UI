@@ -15,7 +15,7 @@ interface Props {
   className?: string;
 }
 
-export default function TransferContent({className}: Props): React.ReactElement<Props> {
+export default function TransferContent({className= ''}: Props): React.ReactElement<Props> {
   const {t} = useTranslation();
   const {hasPlatonAccount, Transfers} = useContext(PlatonAccountsContext);
   const {hasAccounts} = useContext(PolkadotAccountsContext);

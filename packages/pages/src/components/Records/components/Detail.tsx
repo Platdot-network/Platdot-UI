@@ -207,3 +207,9 @@ export const LoadingWrapper = styled.div`
   margin-top: 20px;
 `;
 
+export const StatusText = styled.span`
+  font-size: 14px;
+  line-height: 20px;
+  color: #444C5E;
+  font-weight: 600;
+`

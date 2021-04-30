@@ -1,5 +1,6 @@
 import {ActionStatus} from '@polkadot/pages/components/Status/types';
 import BigNumber from 'bignumber.js';
+import { web3 } from '@polkadot/pages/contract';
 
 const creatStatusInfo = (statusInfo: ActionStatus, status: string,message: string) => {
   statusInfo.status = status
@@ -23,6 +24,11 @@ const  classes = (...classNames: (boolean | null | string | undefined)[]): strin
     .join(' ');
 }
 
+const blockNumberToDate = async (blockNumber: number) => {
+  const {timestamp} = await web3.platon.getBlock(blockNumber);
+  return timestamp
+};
+
 const tipInAlaya: BigNumber = new BigNumber(0.03)
 const tipInPlaton: BigNumber = new BigNumber(0.5)
 const tipInXBTC = 0
@@ -33,5 +39,6 @@ export {
   classes,
   tipInAlaya,
   tipInPlaton,
-  tipInXBTC
+  tipInXBTC,
+  blockNumberToDate
 }

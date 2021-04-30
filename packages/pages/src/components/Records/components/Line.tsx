@@ -1,49 +1,69 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Hash from './Hash';
-import { Account, Detail, Header, Label, Line, Sequence } from './Detail';
+import { Account, Detail, Header, Label, Line, Sequence, StatusText } from './Detail';
 import { useOutsideClick } from '../hooks';
 import { useApi } from '@polkadot/react-hooks';
 import moment from 'moment';
 import { PlatonAccountsContext } from '../../PlatonAccountsProvider';
 import { PolkadotAccountsContext } from '../../PolkadotAccountsProvider';
+import { TransferItem } from '@polkadot/pages/hooks/useTransferList';
+import { useTranslation } from '@polkadot/pages/components/translate';
+import { blockNumberToDate } from '@polkadot/pages/helper/helper';
 
-export default function ({records, num, arrows, isReverse}: any) {
+interface Props {
+  record: TransferItem;
+  num: number;
+  arrows: boolean;
+  isReverse?: boolean;
+}
+
+export default function ({record, num, arrows, isReverse}: Props): React.ReactElement<Props> {
+  const {t} = useTranslation();
   const {isApiReady} = useApi();
   const [open, setOpen] = useState(false);
-  const { platonAccount } = useContext(PlatonAccountsContext)
-  const { currentAccount } = useContext(PolkadotAccountsContext)
-
+  const {platonAccount} = useContext(PlatonAccountsContext);
+  const {currentAccount} = useContext(PolkadotAccountsContext);
   const wrapper = useRef(null);
+  const [date, setDate] = useState<string>('');
 
   useOutsideClick(wrapper, () => {
     setOpen(false);
   });
 
+  useEffect(() => {
+    blockNumberToDate(record.blockNumber).then((timestamp: number) =>
+      setDate(moment(timestamp).format('YYYY/MM/DD HH:mm:ss'))
+    );
+  }, [record.blockNumber]);
+
   return (
     <Line className='publishandredeem' onClick={() => setOpen(!open)} ref={wrapper}>
       <Header>
-        <Sequence className='txNum'>{moment(new Date(records.blockTimestamp)).format('YYYY/MM/DD hh:mm:ss')}</Sequence>
+        <Sequence className='txNum'>{date}</Sequence>
+        <StatusText>{t('Completed')}</StatusText>
       </Header>
       <Account>
         {
-          isReverse ? 
-          <>
-            <Hash hash={platonAccount} className='address'/>
-            {arrows ? <img src='http://lc-XLoqMObG.cn-n1.lcfile.com/cb023eeb56945d0cd674.svg' alt='Arrow' className='arrow'/> : ''}
-            <Hash hash={currentAccount} className='address'/>
-          </>:
-          <>
-            <Hash hash={currentAccount} className='address'/>
-            {arrows ? <img src='http://lc-XLoqMObG.cn-n1.lcfile.com/cb023eeb56945d0cd674.svg' alt='Arrow' className='arrow'/> : ''}
-            <Hash hash={platonAccount} className='address'/>
-          </>
+          isReverse ?
+            <>
+              <Hash hash={platonAccount} className='address'/>
+              {arrows ? <img src='http://lc-XLoqMObG.cn-n1.lcfile.com/cb023eeb56945d0cd674.svg' alt='Arrow'
+                             className='arrow'/> : ''}
+              <Hash hash={currentAccount} className='address'/>
+            </> :
+            <>
+              <Hash hash={currentAccount} className='address'/>
+              {arrows ? <img src='http://lc-XLoqMObG.cn-n1.lcfile.com/cb023eeb56945d0cd674.svg' alt='Arrow'
+                             className='arrow'/> : ''}
+              <Hash hash={platonAccount} className='address'/>
+            </>
         }
       </Account>
       {isApiReady && open ? (
-        <Detail className={`detail  lineDetail${num}`}>
+        <Detail className={`detail lineDetail${num}`}>
           <div className='hashVal'>
-            <Label>交易哈希</Label>
-            <Hash hash={records.txHash} className='hash'/>
+            <Label>{t('Transaction hash')}</Label>
+            <Hash hash={record.transactionHash} className='hash'/>
           </div>
         </Detail>
       ) : null}

@@ -36,5 +36,9 @@
   "Redeem amount": "赎回数量",
   "Confirm Publish": "确定发行",
   "Confirm Redeem": "确定赎回",
-  "The current currency": "当前币种"
+  "The current currency": "当前币种",
+  "Block height": "块高",
+  "In": "转入",
+  "Out": "转出",
+  "Completed": "已完成"
 }

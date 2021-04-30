@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Hash from './Hash';
 import { Detail, Header, Account, Label, Line, Sequence, Inout, Amount } from './Detail';
 import moment from 'moment';
@@ -6,33 +6,53 @@ import { useTranslation } from '@polkadot/pages/components/translate';
 import { useOutsideClick } from '../hooks';
 import { useApi } from '@polkadot/react-hooks';
 import Arrow from './arrow.svg';
+import { hexAddressToATP, TransferItem } from '@polkadot/pages/hooks/useTransferList';
+import { PlatonAccountsContext } from '@polkadot/pages/components/PlatonAccountsProvider';
+import BigNumber from 'bignumber.js';
+import { NetWorkContext } from '@polkadot/pages/components/NetWorkProvider';
+import { blockNumberToDate } from '@polkadot/pages/helper/helper';
 
-export default function ({records, num, arrows}: any) {
+interface Props {
+  record: TransferItem;
+  num: number;
+  arrows: boolean;
+}
+
+export default function ({record, num, arrows}: Props): React.ReactElement<Props> {
   const {t} = useTranslation();
   const {isApiReady} = useApi();
   const [open, setOpen] = useState(false);
   const wrapper = useRef(null);
+  const {platonAccount} = useContext(PlatonAccountsContext)
+  const {platonUnit} = useContext(NetWorkContext)
+  const [date, setDate] = useState<string>('');
 
   useOutsideClick(wrapper, () => {
     setOpen(false);
   });
 
+  useEffect(() => {
+    blockNumberToDate(record.blockNumber).then((timestamp: number) =>
+      setDate(moment(timestamp).format('YYYY/MM/DD HH:mm:ss'))
+    );
+  }, [record.blockNumber]);
+
   return (
     <Line className='transfer' onClick={() => setOpen(!open)} ref={wrapper}>
       <Header>
-        <Sequence className='txNum'>{moment(new Date(records.blockTimestamp)).format('YYYY/MM/DD hh:mm:ss')}</Sequence>
-        <Inout>{records.type === 'OUT' ? t('Out') : t('In')}</Inout>
+        <Sequence className='txNum'>{date}</Sequence>
+        <Inout>{hexAddressToATP(record.to) === platonAccount ? t('In') : t('Out')}</Inout>
       </Header>
       <Account className='account'>
-        <Amount>{records.transferValue} {records.symbol}</Amount>
+        <Amount>{(new BigNumber(record.value).div(1e18)).toNumber().toFixed(4)} {platonUnit}</Amount>
         {arrows ? <img src='http://lc-XLoqMObG.cn-n1.lcfile.com/cb023eeb56945d0cd674.svg' alt='Arrow' className='arrow'/> : ''}
-        <Hash hash={records.transferTo} className='address'/>
+        <Hash hash={record.to} className='address'/>
       </Account>
       {isApiReady && open ? (
         <Detail className={`detail  lineDetail${num}`}>
           <div className='hashVal'>
-            <Label>交易哈希</Label>
-            <Hash hash={records.txHash} className='hash'/>
+            <Label>{t('Transaction hash')}</Label>
+            <Hash hash={record.transactionHash} className='hash'/>
           </div>
         </Detail>
       ) : null}

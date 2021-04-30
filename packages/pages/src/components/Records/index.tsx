@@ -6,14 +6,15 @@ import Line from './components/Line';
 import Lines from './components/Lines';
 import Empty from './Empty';
 import { useTranslation } from '@polkadot/pages/components/translate';
+import { TransferItem } from '@polkadot/pages/hooks/useTransferList';
 
 interface RecordsProps {
   children?: React.ReactNode;
   className?: string;
-  title?: string;
-  recordLength?: number;
-  records?: any;
-  arrows?: boolean;
+  title: string;
+  recordLength: number;
+  records: TransferItem[];
+  arrows: boolean;
   isReverse?: boolean;
 }
 
@@ -32,10 +33,10 @@ export default function Records({ children, className = '', title, records, reco
     }
   });
 
-  const RecordsElement = arrows ? records?.map((record: any, index: number) => {
-    return <Line key={index} records={record} num={index} arrows={arrows} isReverse={isReverse} />;
-  }) : records?.map((record: any, index: number) => {
-    return <Lines key={index} records={record} num={index} arrows={arrows} />;
+  const RecordsElement = arrows ? records.map((record: TransferItem, index: number) => {
+    return <Line key={index} record={record} num={index} arrows={arrows} isReverse={isReverse} />;
+  }) : records.map((record: TransferItem, index: number) => {
+    return <Lines key={index} record={record} num={index} arrows={arrows} />;
   });
 
   if (loading) {

@@ -17,7 +17,7 @@ function CardContent(): React.ReactElement{
   const [amount, setAmount] = useState<string>('');
   const status = {action: 'transfer'} as ActionStatus;
   const {platonUnit, netName} = useContext(NetWorkContext);
-  const {platonAccount, fetchTransfers} = useContext(PlatonAccountsContext);
+  const {platonAccount} = useContext(PlatonAccountsContext);
   const {queueAction} = useContext(StatusContext);
   const [targetAddress, setTargetAddress] = useState<string>('');
 
@@ -32,7 +32,6 @@ function CardContent(): React.ReactElement{
           .then(result => {
             creatStatusInfo(status, 'success', `${t('Transaction hash')}: ${result}`);
             queueAction(status as ActionStatus);
-            fetchTransfers(platonAccount);
           })
           .catch(error => {
             creatStatusInfo(status, 'error', error.message);

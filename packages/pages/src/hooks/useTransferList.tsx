@@ -1,50 +1,91 @@
-import {useEffect, useState} from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { erc20_minter_contract, web3 } from '@polkadot/pages/contract';
+import { interval } from 'rxjs';
+import { toBech32Address } from 'web3/packages/web3-utils';
+import { EventData } from 'web3/packages/web3-eth-contract';
+import moment from 'moment';
 
-export interface Transfer {
-  id: number,
-  seq: number,
-  txHash: string,
-  blockNumber: number,
-  txFrom: string,
-  contract: number,
-  transferTo: string,
-  transferValue: number,
-  symbol: string,
-  type: string,
-  blockTimestamp: number,
-  decimal: number,
-  fromType: number,
-  toType: number,
-  systemTimestamp: number,
-  value: string
+interface TransferResultItem {
+  returnValues: TransferItem;
+  transactionHash: string;
+  blockNumber: number;
 }
 
-export interface PublishRecord  extends Transfer{}
-export interface RedeemRecord  extends Transfer{}
+export interface TransferItem {
+  from: string;
+  to: string;
+  value: string;
+  transactionHash: string;
+  blockNumber: number;
+}
 
 interface AllRecords {
-  PublishRecords: PublishRecord[],
-  RedeemRecords: RedeemRecord[],
-  Transfers: Transfer[],
+  PublishRecords: TransferItem[],
+  RedeemRecords: TransferItem[],
+  Transfers: TransferItem[],
 }
+
+// const blockNumberToTime = async (blockNumber: number) => {
+//   const time = await web3.platon.getBlock(blockNumber);
+//   const timeFormat = moment(time.timestamp).format('YYYY-MM-DD HH:mm:ss');
+//   se
+// };
+// blockNumberToTime(3984774);
+
+const mapNewRecords = (RecordsList: TransferResultItem[]): TransferItem[] => {
+
+  return RecordsList.map((item: TransferResultItem) => ({
+    from: item.returnValues.from,
+    to: item.returnValues.to,
+    value: item.returnValues.value,
+    transactionHash: item.transactionHash,
+    blockNumber: item.blockNumber
+  })).reverse();
+};
+
+export const hexAddressToATP = (hexAddress: string) => {
+  return toBech32Address('atp', hexAddress);
+};
 
 export default function useTokenTransferList(currentAccount: string) {
   const [state, setState] = useState<AllRecords>({PublishRecords: [], RedeemRecords: [], Transfers: []});
 
-  async function fetchTransfers(currentAccount: string) {
-    const res = await axios.post('http://39.106.4.1:53311/alaya-api/token/tokenTransferList',{address:`${currentAccount}`});
-    const records = res.data.data
-    setState({
-      PublishRecords: records.filter((publish: PublishRecord) => publish.txFrom === 'atp1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqdruy9j'),
-      RedeemRecords: records.filter((redreem: RedeemRecord) => redreem.transferTo === 'atp1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqdruy9j'),
-      Transfers: records.filter((transfer: Transfer) => transfer.txFrom !== 'atp1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqdruy9j' && transfer.transferTo !== 'atp1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqdruy9j')
-    });
-  }
+  const fetchTransfers = (account: string) => {
+    erc20_minter_contract.getPastEvents('Transfer', {fromBlock: 0},
+      (error: Error, events: any) => {
+        const PublishRecords: TransferItem[] = mapNewRecords(
+          events.filter((element: EventData) =>
+            element.returnValues.from === '0x0000000000000000000000000000000000000000' &&
+            hexAddressToATP(element.returnValues.to).toLowerCase() === account.toLowerCase())
+        );
+        const RedeemRecords: TransferItem[] = mapNewRecords(
+          events.filter((element: EventData) =>
+            hexAddressToATP(element.returnValues.from).toLowerCase() === account.toLowerCase() &&
+            element.returnValues.to === '0x0000000000000000000000000000000000000000')
+        );
+        const Transfers: TransferItem[] = mapNewRecords(
+          events.filter((element: EventData) => (
+            (hexAddressToATP(element.returnValues.from).toLowerCase() === account.toLowerCase() &&
+              element.returnValues.to !== '0x0000000000000000000000000000000000000000') ||
+            (hexAddressToATP(element.returnValues.to).toLowerCase() === account.toLowerCase() &&
+              element.returnValues.from !== '0x0000000000000000000000000000000000000000')
+          ))
+        );
+        setState({
+          PublishRecords,
+          RedeemRecords,
+          Transfers,
+          // transferCompletion
+        });
+      });
+  };
 
-  useEffect((): void => {
-    fetchTransfers(currentAccount);
+
+  useEffect((): () => void => {
+    const fetchTransfers$ = interval(1000).subscribe(() => fetchTransfers(currentAccount));
+
+    return () => fetchTransfers$.unsubscribe();
   }, [currentAccount]);
 
-  return { state, fetchTransfers }
+  return {state, fetchTransfers};
 }

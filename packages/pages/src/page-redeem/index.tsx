@@ -22,7 +22,7 @@ export default function RedeemContent({className}: Props): React.ReactElement<Pr
   const {t} = useTranslation();
   const {isApiReady} = useApi();
   const {currentAccount, hasAccounts} = useContext(PolkadotAccountsContext);
-  const {platonAccount, hasPlatonAccount, RedeemRecords, pdotAmount, fetchTransfers} = useContext(PlatonAccountsContext);
+  const {platonAccount, hasPlatonAccount, RedeemRecords, pdotAmount} = useContext(PlatonAccountsContext);
   const redeemLength = RedeemRecords.length;
   const [amount, setAmount] = useState<string>('0');
   const {queueAction} = useContext(StatusContext);
@@ -93,7 +93,6 @@ export default function RedeemContent({className}: Props): React.ReactElement<Pr
             .then(result => {
               creatStatusInfo(status, 'success', `${t('Transaction hash')}: ${result}`);
               queueAction(status as ActionStatus);
-              fetchTransfers(platonAccount);
               setButtonDisabled(false);
             })
             .catch(error => {

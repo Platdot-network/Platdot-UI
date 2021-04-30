@@ -1,6 +1,6 @@
 import React, { createContext, FC, useEffect, useState } from 'react';
 import usePlatonAccounts from '@polkadot/pages/hooks/usePlatonAccounts';
-import useTokenTransferList, { PublishRecord, RedeemRecord, Transfer } from '@polkadot/pages/hooks/useTransferList';
+import useTokenTransferList, { TransferItem } from '@polkadot/pages/hooks/useTransferList';
 import { erc20_minter_contract } from '@polkadot/pages/contract';
 import { interval, of, Subscription } from '@polkadot/x-rxjs';
 import { filter, switchMap } from '@polkadot/x-rxjs/operators';
@@ -12,12 +12,11 @@ export interface PlatonAccountsProviderData {
   hasPlatonAccount: boolean;
   platonAccount: string;
   setPlatonAccount: React.Dispatch<string>;
-  PublishRecords: PublishRecord[];
-  RedeemRecords: RedeemRecord[];
-  Transfers: Transfer[];
+  PublishRecords: TransferItem[];
+  RedeemRecords: TransferItem[];
+  Transfers: TransferItem[];
   pdotAmount: string;
   setPdotAmount: React.Dispatch<string>;
-  fetchTransfers: (account: string) => Promise<void>
 }
 
 export const PlatonAccountsContext = createContext<PlatonAccountsProviderData>({} as PlatonAccountsProviderData);
@@ -26,7 +25,7 @@ export const PlatonAccountsProvider: FC = ({children}) => {
   const {platonAccounts, platonSelectedAccount, hasPlatonAccount} = usePlatonAccounts();
   const [platonAccount, setPlatonAccount] = useState<string>(platonSelectedAccount);
   const [pdotAmount, setPdotAmount] = useState<string>('0');
-  const { state, fetchTransfers } = useTokenTransferList(platonAccount);
+  const { state } = useTokenTransferList(platonAccount);
   const { PublishRecords, Transfers, RedeemRecords } = state
   // @ts-ignore
   if (typeof window.alaya !== 'undefined') {
@@ -74,7 +73,6 @@ export const PlatonAccountsProvider: FC = ({children}) => {
       Transfers,
       pdotAmount,
       setPdotAmount,
-      fetchTransfers
     }}>
       {children}
     </PlatonAccountsContext.Provider>
