@@ -21,26 +21,34 @@ export default function ({record, num, arrows, isReverse}: Props): React.ReactEl
   const {t} = useTranslation();
   const {isApiReady} = useApi();
   const [open, setOpen] = useState(false);
-  const {platonAccount} = useContext(PlatonAccountsContext);
+  const {platonAccount, RecordsList} = useContext(PlatonAccountsContext);
   const {currentAccount} = useContext(PolkadotAccountsContext);
   const wrapper = useRef(null);
   const [date, setDate] = useState<string>('');
-
+  const [completeStatus, setCompleteStatus] = useState<boolean>(true)
   useOutsideClick(wrapper, () => {
     setOpen(false);
   });
 
   useEffect(() => {
-    blockNumberToDate(record.blockNumber).then((timestamp: number) =>
+    RecordsList.find(item =>
+      item.transactionHash === record.transactionHash
+    )? setCompleteStatus(true): setCompleteStatus(false)
+  }, [RecordsList, record.transactionHash])
+
+  useEffect(() => {
+    record.blockNumber? blockNumberToDate(record.blockNumber).then((timestamp: number) =>
       setDate(moment(timestamp).format('YYYY/MM/DD HH:mm:ss'))
-    );
+    ): setDate(moment(new Date()).format('YYYY/MM/DD HH:mm:ss'))
   }, [record.blockNumber]);
 
   return (
     <Line className='publishandredeem' onClick={() => setOpen(!open)} ref={wrapper}>
       <Header>
         <Sequence className='txNum'>{date}</Sequence>
-        <StatusText>{t('Completed')}</StatusText>
+        <StatusText className={`${completeStatus? 'completed': 'underway'}`}>
+          {completeStatus? t('Completed'): t('Underway')}
+        </StatusText>
       </Header>
       <Account>
         {

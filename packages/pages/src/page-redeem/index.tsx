@@ -77,7 +77,7 @@ export default function RedeemContent({className}: Props): React.ReactElement<Pr
     queueAction(status as ActionStatus);
   };
 
-  const redeem = () => {
+  const redeem = (): void => {
     if (platonAccount && amountToBigNumber.toNumber() && isChargeEnough && (amountToBigNumber.toNumber() > charge)) {
       try {
         setButtonDisabled(true);

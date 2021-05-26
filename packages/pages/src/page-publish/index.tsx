@@ -34,11 +34,11 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
   const [isChargeEnough, setIsChargeEnough] = useState<boolean>(true);
   const amountToBigNumber = new BigNumber(amount);
   const {formatProperties} = useContext<ApiProps>(ApiContext);
-
-  const usableBalanceToBigNumber = (new BigNumber(usableBalance)).div(formatProperties? Math.pow(10, formatProperties.tokenDecimals[0]): 1e1).toNumber();
+  const usableBalanceToBigNumber = (new BigNumber(usableBalance)).div(formatProperties ? Math.pow(10, formatProperties.tokenDecimals[0]) : 1e1).toNumber();
   const {netName, localCoin} = useContext(NetWorkContext);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isButtonDisabled, setButtonDisabled] = useState<boolean>(false);
+  const [transaction, setTransaction] = useState<string>('');
 
   useEffect(() => {
     if (!amount) {
@@ -51,12 +51,12 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
       }
     } else {
       const chargeOfAmount = amountToBigNumber.times(0.001);
-      if(localCoin.coinName === 'KSM'){
-        setCharge(chargeOfAmount.plus(tipInAlaya).toNumber())
-      }else if(localCoin.coinName === 'DOT'){
-        setCharge(chargeOfAmount.plus(tipInPlaton).toNumber())
-      }else{
-        setCharge(tipInXBTC)
+      if (localCoin.coinName === 'KSM') {
+        setCharge(chargeOfAmount.plus(tipInAlaya).toNumber());
+      } else if (localCoin.coinName === 'DOT') {
+        setCharge(chargeOfAmount.plus(tipInPlaton).toNumber());
+      } else {
+        setCharge(tipInXBTC);
       }
     }
   }, [amount, netName]);
@@ -75,12 +75,23 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
     }
   }, [isChargeEnough, t, amount, charge]);
 
-  const displayStatusAndFetchBalance = (formatStatusData: any) => {
+  useEffect(() => {
+    transaction && PublishRecords.unshift({
+      from: currentAccount,
+      to: platonAccount,
+      value: '',
+      transactionHash: transaction,
+      blockNumber: 0,
+    });
+  }, [transaction]);
+
+  const displayStatusAndFetchBalance = (formatStatusData: any): void => {
     if (formatStatusData.dispatchInfo) {
       if (formatStatusData.status.inBlock) {
         creatStatusInfo(status, 'success', t('The publish is successful'));
         queueAction(status as ActionStatus);
         setButtonDisabled(false);
+        setTransaction(formatStatusData.status.inBlock);
       }
     } else {
       creatStatusInfo(status, 'sending', t('sending...'));
@@ -88,51 +99,50 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
     }
   };
 
-  const publish = () => {
-    async function publishEvent() {
-      if (hasAccounts && amountToBigNumber.toNumber() && platonAccount && isChargeEnough && (amountToBigNumber.toNumber() > charge)) {
-        try {
-          setButtonDisabled(true);
-          const injector = await web3FromAddress(currentAccount);
-          const amountToPrecision = amountToBigNumber.times(Math.pow(10, formatProperties.tokenDecimals[0])).toNumber();
-          api.setSigner(injector.signer);
-          let param: any
-          if(localCoin.coinName === 'XBTC'){
-            param = [
-              api.tx.xAssets.transfer('5F3NgH5umL6dg6rmtKEm6m7z75YZwkBkyTybksL9CZfXxvPT', 1, amountToPrecision),
-              api.tx.system.remark(platonAccount)
-            ]
-          }else{
-            param = [
-              api.tx.balances.transferKeepAlive('5F3NgH5umL6dg6rmtKEm6m7z75YZwkBkyTybksL9CZfXxvPT', amountToPrecision),
-              api.tx.system.remark(platonAccount)
-            ]
-          }
-          api.tx.utility.batch(param)
-            .signAndSend(
-              currentAccount,
-              {signer: injector.signer},
-              (statusData) => {
-                const formatStatusData = JSON.parse(JSON.stringify(statusData));
-                displayStatusAndFetchBalance(formatStatusData);
-              })
-            .then(result => {
-              console.log('result', result);
-            })
-            .catch(error => {
-              creatStatusInfo(status, 'error', (error as Error).message);
-              queueAction(status as ActionStatus);
-              setButtonDisabled(false);
-            });
-        } catch (err) {
-          console.log(err);
-        }
+  const publishEvent = async (): Promise<void> => {
+    try {
+      setButtonDisabled(true);
+      const injector = await web3FromAddress(currentAccount);
+      const amountToPrecision = amountToBigNumber.times(Math.pow(10, formatProperties.tokenDecimals[0])).toNumber();
+      api.setSigner(injector.signer);
+      let param: any;
+      if (localCoin.coinName === 'XBTC') {
+        param = [
+          api.tx.xAssets.transfer('5F3NgH5umL6dg6rmtKEm6m7z75YZwkBkyTybksL9CZfXxvPT', 1, amountToPrecision),
+          api.tx.system.remark(platonAccount)
+        ];
+      } else {
+        param = [
+          api.tx.balances.transferKeepAlive('5F3NgH5umL6dg6rmtKEm6m7z75YZwkBkyTybksL9CZfXxvPT', amountToPrecision),
+          api.tx.system.remark(platonAccount)
+        ];
       }
+      api.tx.utility.batch(param)
+        .signAndSend(
+          currentAccount,
+          {signer: injector.signer},
+          (statusData) => {
+            const formatStatusData = JSON.parse(JSON.stringify(statusData));
+            displayStatusAndFetchBalance(formatStatusData);
+          })
+        .then(result => {
+          console.log('result', result);
+        })
+        .catch(error => {
+          creatStatusInfo(status, 'error', (error as Error).message);
+          queueAction(status as ActionStatus);
+          setButtonDisabled(false);
+        });
+    } catch (err) {
+      console.log(err);
     }
+  }
 
-    publishEvent();
+  const publish = (): void => {
+    if (hasAccounts && amountToBigNumber.toNumber() && platonAccount && isChargeEnough && (amountToBigNumber.toNumber() > charge)) {
+      publishEvent();
+    }
   };
-
 
   return (
     <Wrapper className={`contentWrapper ${className}`}>

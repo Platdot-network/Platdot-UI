@@ -15,6 +15,7 @@ export interface PlatonAccountsProviderData {
   PublishRecords: TransferItem[];
   RedeemRecords: TransferItem[];
   Transfers: TransferItem[];
+  RecordsList: TransferItem[];
   pdotAmount: string;
   setPdotAmount: React.Dispatch<string>;
 }
@@ -26,7 +27,7 @@ export const PlatonAccountsProvider: FC = ({children}) => {
   const [platonAccount, setPlatonAccount] = useState<string>(platonSelectedAccount);
   const [pdotAmount, setPdotAmount] = useState<string>('0');
   const { state } = useTokenTransferList(platonAccount);
-  const { PublishRecords, Transfers, RedeemRecords } = state
+  const { PublishRecords, Transfers, RedeemRecords, RecordsList } = state
   // @ts-ignore
   if (typeof window.alaya !== 'undefined') {
     // @ts-ignore
@@ -73,6 +74,7 @@ export const PlatonAccountsProvider: FC = ({children}) => {
       Transfers,
       pdotAmount,
       setPdotAmount,
+      RecordsList
     }}>
       {children}
     </PlatonAccountsContext.Provider>

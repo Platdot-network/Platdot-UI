@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { erc20_minter_contract, web3 } from '@polkadot/pages/contract';
+import { erc20_minter_contract } from '@polkadot/pages/contract';
 import { interval } from 'rxjs';
 import { toBech32Address } from 'web3/packages/web3-utils';
 import { EventData } from 'web3/packages/web3-eth-contract';
-import moment from 'moment';
+import { fromPromise } from 'rxjs/internal-compatibility';
+import { switchMap } from '@polkadot/x-rxjs/operators';
 
 interface TransferResultItem {
   returnValues: TransferItem;
@@ -20,17 +21,11 @@ export interface TransferItem {
 }
 
 interface AllRecords {
-  PublishRecords: TransferItem[],
-  RedeemRecords: TransferItem[],
-  Transfers: TransferItem[],
+  PublishRecords: TransferItem[];
+  RedeemRecords: TransferItem[];
+  Transfers: TransferItem[];
+  RecordsList: TransferItem[];
 }
-
-// const blockNumberToTime = async (blockNumber: number) => {
-//   const time = await web3.platon.getBlock(blockNumber);
-//   const timeFormat = moment(time.timestamp).format('YYYY-MM-DD HH:mm:ss');
-//   se
-// };
-// blockNumberToTime(3984774);
 
 const mapNewRecords = (RecordsList: TransferResultItem[]): TransferItem[] => {
 
@@ -48,7 +43,8 @@ export const hexAddressToATP = (hexAddress: string) => {
 };
 
 export default function useTokenTransferList(currentAccount: string) {
-  const [state, setState] = useState<AllRecords>({PublishRecords: [], RedeemRecords: [], Transfers: []});
+  const [state, setState] = useState<AllRecords>({PublishRecords: [], RedeemRecords: [], Transfers: [], RecordsList: []});
+  const [recordsNum, setRecordsNum] = useState<number>(0)
 
   const fetchTransfers = (account: string) => {
     erc20_minter_contract.getPastEvents('Transfer', {fromBlock: 0},
@@ -75,17 +71,26 @@ export default function useTokenTransferList(currentAccount: string) {
           PublishRecords,
           RedeemRecords,
           Transfers,
-          // transferCompletion
+          RecordsList: events
         });
       });
   };
 
-
   useEffect((): () => void => {
-    const fetchTransfers$ = interval(1000).subscribe(() => fetchTransfers(currentAccount));
+    const fetchTransfers$ = interval(1000)
+      .pipe(
+        switchMap(() => {
+          return fromPromise( erc20_minter_contract.getPastEvents('Transfer', {fromBlock: 0}));
+        })
+      )
+      .subscribe((e: any) => setRecordsNum(e.length));
 
     return () => fetchTransfers$.unsubscribe();
-  }, [currentAccount]);
+  }, []);
+
+  useEffect(() => {
+    fetchTransfers(currentAccount)
+  }, [recordsNum])
 
   return {state, fetchTransfers};
 }

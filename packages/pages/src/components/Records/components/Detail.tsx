@@ -212,4 +212,10 @@ export const StatusText = styled.span`
   line-height: 20px;
   color: #444C5E;
   font-weight: 600;
+  &.completed{
+    color: #444C5E;
+  }
+  &.underway{
+    color: #51ABAD;
+  }
 `

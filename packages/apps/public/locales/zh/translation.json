@@ -40,5 +40,6 @@
   "Block height": "块高",
   "In": "转入",
   "Out": "转出",
-  "Completed": "已完成"
+  "Completed": "已完成",
+  "Underway": "进行中"
 }
