@@ -41,7 +41,6 @@ const OptionWrapper = styled.div`
 
 function NetOption({netList}: Props): React.ReactElement<Props> {
   const {localNet, setNetWork, setCoin, localCoin} = useContext(NetWorkContext);
-  console.log('localCoin', localCoin)
   const handleOnClick = (item: NetWorkInfo): void => {
     setNetWork({
       name: item.title.slice(0, -3),

@@ -67,11 +67,11 @@ export default function AccountMessage({ isReverse, polkadotAddress, platonAddre
 
   const transactionAddresses: addressInfo[] = [
     {
-      iconUrl: 'http://lc-XLoqMObG.cn-n1.lcfile.com/59801a5cc3eca902d254.svg',
+      iconUrl: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/10/52/5c133837-2b1c-4e86-a84d-e4c2f186066a.svg',
       content: polkadotAddress
     },
     {
-      iconUrl: 'http://lc-XLoqMObG.cn-n1.lcfile.com/ed79dc96ca234c1efbbd.svg',
+      iconUrl: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/28/14/38/a2e15cb7-3e87-40aa-9279-4c1885618b11.svg',
       content: platonAddress
     }
   ];

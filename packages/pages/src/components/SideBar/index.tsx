@@ -8,10 +8,6 @@ import Languages from "./Languages";
 import { useTranslation } from '@polkadot/pages/components/translate';
 import NetWorkList from '@polkadot/pages/components/SideBar/NetWorkList';
 
-interface Props {
-  className?: string;
-}
-
 export interface NodeItem {
   index: number | undefined;
   nodeName: string;
@@ -63,6 +59,7 @@ const Wrapper = styled.div`
         border-radius: 0 10px 10px 0;
         margin: 25px -26px 25px -52px;
         padding-left: 52px;
+        transition: all .7s;
         span {
           color: #ffffff;
         }
@@ -71,7 +68,7 @@ const Wrapper = styled.div`
   }
 `;
 
-function Sidebars({ className = "" }: Props): React.ReactElement<Props> {
+function Sidebars(): React.ReactElement {
   const {t} = useTranslation();
 
   const nodeList: NodeItem[] = [
@@ -79,22 +76,22 @@ function Sidebars({ className = "" }: Props): React.ReactElement<Props> {
       index: 0,
       nodeName: t("Publish"),
       link: "/",
-      icon: <img src='http://lc-XLoqMObG.cn-n1.lcfile.com/720bb60af2705f141078.svg' alt="publish" />,
-      icon_after: <img src='http://lc-XLoqMObG.cn-n1.lcfile.com/fbaef60905798d33727b.svg' alt="publish" />
+      icon: <img src='https://pic.stackoverflow.wiki/uploadImages/115/194/7/100/2021/05/26/17/49/6ec51546-7373-421e-b9ec-50783e33bb65.svg' alt="publish" />,
+      icon_after: <img src='https://pic.stackoverflow.wiki/uploadImages/115/194/7/100/2021/05/26/17/49/284426a6-6435-49f7-a9e6-a8f969befeba.svg' alt="publish" />
     },
     {
       index: 1,
       nodeName: t("Redeem"),
       link: "/redeem",
-      icon: <img src='http://lc-XLoqMObG.cn-n1.lcfile.com/cdecc6a6733584359b5b.svg' alt="redeem" />,
-      icon_after: <img src='http://lc-XLoqMObG.cn-n1.lcfile.com/873084d11f0ffb9d9f7b.svg' alt="redeem" />
+      icon: <img src='https://pic.stackoverflow.wiki/uploadImages/115/194/7/100/2021/05/26/17/47/f8a907dd-fad1-46a7-bc0b-79d0a9b14163.svg' alt="redeem" />,
+      icon_after: <img src='https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/28/14/38/38b5c017-c5f6-4816-a44e-753ce0c86c83.svg' alt="redeem" />
     },
     {
       index: 2,
       nodeName: t("Transfer"),
       link: "/transfer",
-      icon: <img src='http://lc-XLoqMObG.cn-n1.lcfile.com/0bef863a2d9db0f3d3de.svg' alt="transfer" />,
-      icon_after: <img src='http://lc-XLoqMObG.cn-n1.lcfile.com/4bb974cd897fd02c5fbf.svg' alt="transfer" />
+      icon: <img src='https://pic.stackoverflow.wiki/uploadImages/115/194/7/100/2021/05/26/17/49/633a7daf-b3cc-4cb7-947c-9c2d2bb238ca.svg' alt="transfer" />,
+      icon_after: <img src='https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/28/14/38/88ef5209-6157-4a75-8f7e-a15af3b45f28.svg' alt="transfer" />
     }
   ];
 
@@ -103,11 +100,11 @@ function Sidebars({ className = "" }: Props): React.ReactElement<Props> {
   return (
     <Wrapper>
       <div className="wrappers">
-        <img src='http://lc-XLoqMObG.cn-n1.lcfile.com/2708a538eefe61748c0e.svg' alt="PlatDot" />
+        <img src='https://pic.stackoverflow.wiki/uploadImages/115/194/7/100/2021/05/26/19/58/34dc4865-9e7c-4e58-adc4-0e9a7b1a29d8.svg' alt="PlatDot" />
         <NetWorkList/>
         <ul className="navLists">
           {nodeList.map((node: NodeItem, index: number) => (
-            <SideItem node={node} key={index} id={index} pathname={pathname} />
+            <SideItem node={node} key={index} pathname={pathname} />
           ))}
         </ul>
       </div>

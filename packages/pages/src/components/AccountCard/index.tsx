@@ -50,7 +50,7 @@ function AccountCard({ children, className = '', isBasic, accountName, accountAd
           {allAccounts ?
           <Button
             className="ui--Account"
-            img='http://lc-XLoqMObG.cn-n1.lcfile.com/43d12c031d280a71c192.svg'
+            img='https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/10/51/33e7b040-e72c-499e-a971-0fe94959c15b.svg'
             onClick={_toggleAccountList}
           />
           : null}

@@ -28,7 +28,7 @@ type Props = {
 export default function ({ className = '', style, text }: Props): React.ReactElement<Props> {
   return (
     <Wrapper className={`nodata ${className}`} style={style}>
-      <img src='http://lc-XLoqMObG.cn-n1.lcfile.com/60b0e23d28aa62b07f19.svg' alt='empty'/>
+      <img src='https://z3.ax1x.com/2021/05/26/29aUBt.png' alt='empty'/>
       <p>{text}</p>
     </Wrapper>
   );
