@@ -52,7 +52,7 @@ export const NetWorkProvider: FC = ({children}) => {
   });
 
   useEffect(() => {
-    if (polkadotSetting.apiUrl === 'wss://westend-shell-rpc.parity.io') {
+    if (polkadotSetting.apiUrl === 'wss://supercube.pro') {
       setNetWork({
         name: 'Alaya',
         polkadotNetUrl: polkadotSetting.apiUrl,
@@ -61,7 +61,7 @@ export const NetWorkProvider: FC = ({children}) => {
       setCoin({
         coinName: 'KSM',
         whiteIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/194/7/100/2021/05/26/20/05/efe804ac-ab52-4b31-826c-1abb967464ef.svg',
-        matchingNode: 'wss://westend-shell-rpc.parity.io'
+        matchingNode: 'wss://supercube.pro'
       });
     } else if (polkadotSetting.apiUrl === 'wss://polkadot.elara.patract.io') {
       setNetWork({
