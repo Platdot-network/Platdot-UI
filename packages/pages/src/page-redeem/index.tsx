@@ -13,6 +13,7 @@ import { NetWorkContext } from '@polkadot/pages/components/NetWorkProvider';
 import { useTranslation } from '@polkadot/pages/components/translate';
 import Card from '@polkadot/pages/components/Card/Card';
 import { useApi } from '@polkadot/react-hooks';
+import { animated, useSpring } from 'react-spring';
 
 interface Props {
   className?: string;
@@ -34,6 +35,11 @@ export default function RedeemContent({className}: Props): React.ReactElement<Pr
   const {platonUnit, netName, localCoin} = useContext(NetWorkContext);
   const [isButtonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const transitionProps = useSpring({
+    to: { opacity: 1 },
+    from: { opacity: 0 } ,
+    config: { duration: 400 }
+  })
 
   useEffect(() => {
     if (!amount) {
@@ -111,7 +117,7 @@ export default function RedeemContent({className}: Props): React.ReactElement<Pr
   };
 
   return (
-    <Wrapper className={`contentWrapper ${className}`}>
+    <Wrapper style={transitionProps} className={`contentWrapper ${className}`}>
       {hasPlatonAccount && hasAccounts && isApiReady ? (
           <Card className='left' title={`${t('Redeem')} ${platonUnit}`}>
             <CardContent
@@ -134,7 +140,7 @@ export default function RedeemContent({className}: Props): React.ReactElement<Pr
   );
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled(animated.div)`
   display: flex;
   justify-content: space-between;
   .left{

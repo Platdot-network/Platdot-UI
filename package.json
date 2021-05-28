@@ -88,6 +88,7 @@
     "ethereumjs-tx": "^2.1.2",
     "ethers": "^5.0.32",
     "klinecharts": "^5.7.0",
+    "react-spring": "^9.2.0",
     "rxjs": "^6.6.6",
     "uniqid": "^5.2.0",
     "web3": "git+https://github.com/PlatONnetwork/client-sdk-js#alaya-dev"

@@ -16,6 +16,7 @@ import { CardContent } from '@polkadot/pages/components';
 import EmptyCard from '@polkadot/pages/components/PdotCards/EmptyCard';
 import { ApiProps } from '@polkadot/react-api/types';
 import { ApiContext } from '@polkadot/react-api';
+import { animated, useSpring } from 'react-spring';
 
 interface Props {
   className?: string;
@@ -39,6 +40,11 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
   const {netName, localCoin} = useContext(NetWorkContext);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isButtonDisabled, setButtonDisabled] = useState<boolean>(false);
+  const transitionProps = useSpring({
+    to: { opacity: 1 },
+    from: { opacity: 0 } ,
+    config: { duration: 400 }
+  })
 
   useEffect(() => {
     if (!amount) {
@@ -135,7 +141,7 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
 
 
   return (
-    <Wrapper className={`contentWrapper ${className}`}>
+    <Wrapper style={transitionProps} className={`contentWrapper ${className}`}>
       {hasPlatonAccount && hasAccounts && isApiReady ? (
           <Card className='left' title={`${t('Publish')} ${localCoin.coinName}`}>
             <CardContent
@@ -157,7 +163,7 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
   );
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled(animated.div)`
   display: flex;
   justify-content: space-between;
   .left {

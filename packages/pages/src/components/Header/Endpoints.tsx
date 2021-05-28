@@ -26,28 +26,28 @@ function Endpoints({className = ''}: EndpointProps): React.ReactElement<Endpoint
   const coinList: CoinItem[] = localNet.name ==='Alaya' ? [
     {
       name: `KSM`,
-      matchingNode: 'wss://supercube.pro/ws',
-      CoinIcon: 'http://lc-XLoqMObG.cn-n1.lcfile.com/bbc68996a01aa2e8c19a.svg',
-      whiteIcon: 'http://lc-XLoqMObG.cn-n1.lcfile.com/7f0b4956f9dd593c01ef.svg'
+      matchingNode: 'wss://westend-shell-rpc.parity.io',
+      CoinIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/10/57/9c680d8b-3eab-45b5-9cbe-4c4f9dd1d870.svg',
+      whiteIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/06/0ba15d9b-95c7-49b4-bda3-67ae2461e90e.svg'
     },
     {
       name: `XBTC`,
       matchingNode: 'wss://chainx.supercube.pro/ws',
-      CoinIcon: 'http://lc-XLoqMObG.cn-n1.lcfile.com/23004d06cafd179780c1.svg',
-      whiteIcon: 'http://lc-XLoqMObG.cn-n1.lcfile.com/e19d81cbc3ad30b636cd.svg'
+      CoinIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/10/57/3c14ff90-3900-4a8a-9ae5-13923df6f118.svg',
+      whiteIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/06/a17d958b-e182-48d0-b090-1bb1e19ce4cf.svg'
     },
   ]: [
     {
       name: `DOT`,
       matchingNode: 'wss://polkadot.elara.patract.io',
-      CoinIcon: 'http://lc-XLoqMObG.cn-n1.lcfile.com/0a9cba405d7acad81643.svg',
-      whiteIcon: 'http://lc-XLoqMObG.cn-n1.lcfile.com/519b3e5ce282616f1cd7.svg'
+      CoinIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/10/57/5a3086a0-6ca5-4bc0-bbe4-8bbb2ffaad76.svg',
+      whiteIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/06/d3b55f7e-0679-480b-8f2c-ba90beb8d18b.svg'
     },
     {
       name: `XBTC`,
       matchingNode: 'wss://chainx.supercube.pro/ws',
-      CoinIcon: 'http://lc-XLoqMObG.cn-n1.lcfile.com/23004d06cafd179780c1.svg',
-      whiteIcon: 'http://lc-XLoqMObG.cn-n1.lcfile.com/e19d81cbc3ad30b636cd.svg'
+      CoinIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/10/57/3c14ff90-3900-4a8a-9ae5-13923df6f118.svg',
+      whiteIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/06/a17d958b-e182-48d0-b090-1bb1e19ce4cf.svg'
     },
   ];
 

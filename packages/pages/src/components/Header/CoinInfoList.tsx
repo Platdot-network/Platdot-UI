@@ -44,7 +44,7 @@ function CoinInfoList({setIsOpen, list}: Props): React.ReactElement<Props> {
       <Shade/>
       <Wrapper>
         <div className="header">
-          <img src='http://lc-XLoqMObG.cn-n1.lcfile.com/dd2cf18768579432fc72.png' onClick={() => setIsOpen(false)} alt=""/>
+          <img src='https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/22/dc11ff17-38a5-4f8d-8a23-efcf8f0e8dae.png' onClick={() => setIsOpen(false)} alt=""/>
         </div>
         {list.map((item: CoinItem) => (
           <CoinInfo key={item.name} name={item.name} icon={item.CoinIcon} whiteIcon={item.whiteIcon} matchingNode={item.matchingNode} isSelected={localCoin.coinName=== item.name}/>
