@@ -54,10 +54,10 @@ const Wrapper = styled.div`
 `
 
 function CoinInfo({name, icon, isSelected, matchingNode, whiteIcon}: Props): React.ReactElement<Props>{
-  const {setCoin} = useContext(NetWorkContext);
+  const {setCurrentCoinType} = useContext(NetWorkContext);
 
   const modifyCoin = (): void => {
-    setCoin({
+    setCurrentCoinType({
       coinName: name,
       whiteIcon,
       matchingNode

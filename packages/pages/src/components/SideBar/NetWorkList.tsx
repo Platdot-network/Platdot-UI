@@ -35,7 +35,7 @@ export interface NetWorkInfo {
 function NetWorkList(): React.ReactElement{
   const {t} = useTranslation();
   const [isShow, setIsShow] = useState<boolean>(false)
-  const {localNet} = useContext(NetWorkContext);
+  const {platonNet} = useContext(NetWorkContext);
   const netList: NetWorkInfo[] = [
     {
       title: `Alaya ${t('network')}`,
@@ -53,9 +53,9 @@ function NetWorkList(): React.ReactElement{
 
   return (
     <Wrapper onClick={() => setIsShow(!isShow)}>
-      <span>{`${localNet.name} ${t('network')}`}</span>
-      <Icon icon={`${isShow? 'caret-up': 'caret-down'}`}/>
-      {isShow && <NetOption netList={netList}/>}
+      <span>{`${platonNet.name} ${t('network')}`}</span>
+      {/*<Icon icon={`${isShow? 'caret-up': 'caret-down'}`}/>*/}
+      {/*{isShow && <NetOption netList={netList}/>}*/}
     </Wrapper>
   )
 }

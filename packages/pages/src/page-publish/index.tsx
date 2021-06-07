@@ -36,7 +36,7 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
   const amountToBigNumber = new BigNumber(amount);
   const {formatProperties} = useContext<ApiProps>(ApiContext);
   const usableBalanceToBigNumber = (new BigNumber(usableBalance)).div(formatProperties ? Math.pow(10, formatProperties.tokenDecimals[0]) : 1e1).toNumber();
-  const {netName, localCoin} = useContext(NetWorkContext);
+  const {netName, currentCoinType} = useContext(NetWorkContext);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isButtonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [transaction, setTransaction] = useState<string>('');
@@ -48,18 +48,18 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
 
   useEffect(() => {
     if (!amount) {
-      if (localCoin.coinName === 'KSM') {
+      if (currentCoinType.coinName === 'KSM') {
         setCharge(tipInAlaya.toNumber());
-      } else if (localCoin.coinName === 'DOT') {
+      } else if (currentCoinType.coinName === 'DOT') {
         setCharge(tipInPlaton.toNumber());
       } else {
         setCharge(tipInXBTC);
       }
     } else {
       const chargeOfAmount = amountToBigNumber.times(0.001);
-      if (localCoin.coinName === 'KSM') {
+      if (currentCoinType.coinName === 'KSM') {
         setCharge(chargeOfAmount.plus(tipInAlaya).toNumber());
-      } else if (localCoin.coinName === 'DOT') {
+      } else if (currentCoinType.coinName === 'DOT') {
         setCharge(chargeOfAmount.plus(tipInPlaton).toNumber());
       } else {
         setCharge(tipInXBTC);
@@ -112,7 +112,7 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
       const amountToPrecision = amountToBigNumber.times(Math.pow(10, formatProperties.tokenDecimals[0])).toNumber();
       api.setSigner(injector.signer);
       let param: any;
-      if (localCoin.coinName === 'XBTC') {
+      if (currentCoinType.coinName === 'XBTC') {
         param = [
           api.tx.xAssets.transfer('5F3NgH5umL6dg6rmtKEm6m7z75YZwkBkyTybksL9CZfXxvPT', 1, amountToPrecision),
           api.tx.system.remark(platonAccount)
@@ -153,9 +153,9 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
   return (
     <Wrapper style={transitionProps} className={`contentWrapper ${className}`}>
       {hasPlatonAccount && hasAccounts && isApiReady ? (
-          <Card className='left' title={`${t('Publish')} ${localCoin.coinName}`}>
+          <Card className='left' title={`${t('Publish')} ${currentCoinType.coinName}`}>
             <CardContent
-              tokenName={localCoin.coinName}
+              tokenName={currentCoinType.coinName}
               tipLabel={t('Publish amount')}
               charge={charge}
               onClick={publish}
@@ -166,7 +166,7 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
               isReverse={false}/>
           </Card>) :
         <EmptyCard
-          title={`${t('Publish')} ${localCoin.coinName ? localCoin.coinName : ''}`}/>}
+          title={`${t('Publish')} ${currentCoinType.coinName ? currentCoinType.coinName : ''}`}/>}
       <Records className="right" title={t('Publish record')} records={PublishRecords} recordLength={publishLength}
                arrows={true} isReverse={false}/>
     </Wrapper>

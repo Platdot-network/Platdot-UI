@@ -10,7 +10,7 @@ import { useTranslation } from '@polkadot/pages/components/translate';
 function PolkadotAccount(): React.ReactElement {
   const {t} = useTranslation();
   const {currentAccount, hasAccounts, accountName, usableBalance, addressAndName} = useContext<PolkadotAccountsData>(PolkadotAccountsContext);
-  const {localCoin} = useContext(NetWorkContext);
+  const {currentCoinType} = useContext(NetWorkContext);
   const {hasInjectedAccounts} = useApi();
   const [promptMessage, setPromptMessage] = useState(t('Sign in your Polkadot{.js} the Polkadot plugin'));
 
@@ -37,13 +37,13 @@ function PolkadotAccount(): React.ReactElement {
             accountName={accountName}
             accountAddress={currentAccount}
             accountAmount={usableBalance ? usableBalance : 0}
-            iconNode={localCoin.coinName === 'KSM' ?
+            iconNode={currentCoinType.coinName === 'KSM' ?
               'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/06/0ba15d9b-95c7-49b4-bda3-67ae2461e90e.svg' :
-              localCoin.coinName === 'XBTC' ?
+              currentCoinType.coinName === 'XBTC' ?
                 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/06/a17d958b-e182-48d0-b090-1bb1e19ce4cf.svg' :
                 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/06/d3b55f7e-0679-480b-8f2c-ba90beb8d18b.svg'}
             allAccounts={addressAndName}
-            unit={localCoin.coinName}
+            unit={currentCoinType.coinName}
             accountType='polkadot'
           /> :
           <Card isBasic className="pinkCard" label={promptMessage}

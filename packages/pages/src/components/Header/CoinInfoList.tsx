@@ -37,7 +37,7 @@ interface Props {
 }
 
 function CoinInfoList({setIsOpen, list}: Props): React.ReactElement<Props> {
-  const {localCoin} = useContext(NetWorkContext);
+  const {currentCoinType} = useContext(NetWorkContext);
 
   return (
     <>
@@ -47,7 +47,7 @@ function CoinInfoList({setIsOpen, list}: Props): React.ReactElement<Props> {
           <img src='https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/22/dc11ff17-38a5-4f8d-8a23-efcf8f0e8dae.png' onClick={() => setIsOpen(false)} alt=""/>
         </div>
         {list.map((item: CoinItem) => (
-          <CoinInfo key={item.name} name={item.name} icon={item.CoinIcon} whiteIcon={item.whiteIcon} matchingNode={item.matchingNode} isSelected={localCoin.coinName=== item.name}/>
+          <CoinInfo key={item.name} name={item.name} icon={item.CoinIcon} whiteIcon={item.whiteIcon} matchingNode={item.matchingNode} isSelected={currentCoinType.coinName=== item.name}/>
         ))}
       </Wrapper>
     </>

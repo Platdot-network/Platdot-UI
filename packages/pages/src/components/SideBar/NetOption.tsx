@@ -40,9 +40,9 @@ const OptionWrapper = styled.div`
 `;
 
 function NetOption({netList}: Props): React.ReactElement<Props> {
-  const {localNet, setNetWork, setCoin, localCoin} = useContext(NetWorkContext);
+  const {currentCoinType, currentNetwork, setCurrentCoinType, setCurrentNetwork} = useContext(NetWorkContext);
   const handleOnClick = (item: NetWorkInfo): void => {
-    setNetWork({
+    setCurrentNetwork({
       name: item.title.slice(0, -3),
       polkadotNetUrl: item.polkadotNetUrl,
       platonNetUrl: item.platOnNetUrl,
@@ -54,7 +54,7 @@ function NetOption({netList}: Props): React.ReactElement<Props> {
   return (
     <OptionWrapper>
       {netList.map((item: NetWorkInfo) =>
-        <div key={item.title} className={`netItem ${item.title.slice(0, -3) === localNet.name? 'isSelected': ''}`} onClick={() => handleOnClick(item)}>
+        <div key={item.title} className={`netItem ${item.title.slice(0, -3) === currentNetwork.name? 'isSelected': ''}`} onClick={() => handleOnClick(item)}>
           <img src={item.iconUrl} alt={item.title}/>
           <span>{item.title}</span>
         </div>)}

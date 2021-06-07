@@ -88,11 +88,11 @@ export function saveAndReload (settings: SettingsStruct): void {
 export function Cell({className = '', iconUrl, title, account, accountName, isSelected, listType, item}: CellProps): React.ReactElement<CellProps> {
   const [, setValue] = useLocalStorage<string>('currentAccount');
   const {changeAccount} = useContext(PolkadotAccountsContext);
-  const {setNetWork} = useContext(NetWorkContext);
+  const {setCurrentNetwork} = useContext(NetWorkContext);
 
   const handleOnClick = useCallback(() => {
       if (listType === 'coinList') {
-        setNetWork({
+        setCurrentNetwork({
           name: title,
           polkadotNetUrl: item.polkadotNetUrl,
           platonNetUrl: item.platOnNetUrl

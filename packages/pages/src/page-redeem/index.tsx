@@ -32,7 +32,7 @@ export default function RedeemContent({className}: Props): React.ReactElement<Pr
   const pdotAmountToBigNumber = (new BigNumber(pdotAmount)).div(1e18).toNumber();
   const amountToBigNumber = new BigNumber(amount);
   const [isChargeEnough, setIsChargeEnough] = useState<boolean>(true);
-  const {platonUnit, netName, localCoin} = useContext(NetWorkContext);
+  const {platonUnit, netName, currentCoinType} = useContext(NetWorkContext);
   const [isButtonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const transitionProps = useSpring({
@@ -43,18 +43,18 @@ export default function RedeemContent({className}: Props): React.ReactElement<Pr
 
   useEffect(() => {
     if (!amount) {
-      if(localCoin.coinName === 'KSM'){
+      if(currentCoinType.coinName === 'KSM'){
         setCharge(tipInAlaya.toNumber())
-      }else if(localCoin.coinName === 'DOT'){
+      }else if(currentCoinType.coinName === 'DOT'){
         setCharge(tipInPlaton.toNumber())
       }else{
         setCharge(tipInXBTC)
       }
     } else {
       const chargeOfAmount = amountToBigNumber.times(0.001);
-      if(localCoin.coinName === 'KSM'){
+      if(currentCoinType.coinName === 'KSM'){
         setCharge(chargeOfAmount.plus(tipInAlaya).toNumber())
-      }else if(localCoin.coinName === 'DOT'){
+      }else if(currentCoinType.coinName === 'DOT'){
         setCharge(chargeOfAmount.plus(tipInPlaton).toNumber())
       }else{
         setCharge(tipInXBTC)

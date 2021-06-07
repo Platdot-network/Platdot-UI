@@ -10,14 +10,23 @@ const Ethers = require('ethers');
 const Web3 = require('web3');
 const netWorkInfo: NetWorkInfo = JSON.parse(window.localStorage.getItem('netWork') || '{}')
 const coinInfo: CoinInfo= JSON.parse(window.localStorage.getItem('coinInfo') || '{}')
-
+//@ts-ignore
+const currentChainId = Number(window.alaya.chainId)
 let web3;
 const polkadotSetting = uiSettings.get()
-if(netWorkInfo.platonNetUrl){
-  web3 = new Web3(netWorkInfo.platonNetUrl);
+
+if(currentChainId === 100){
+  web3 = new Web3('https://platonnet.chainx.org/')
+}else if(currentChainId === 201018){
+  web3 = new Web3('https://platonnet.chainx.org/')
 }else{
-  polkadotSetting.apiUrl === 'wss://supercube.pro'? web3 = new Web3('https://platonnet.chainx.org/'): web3 = new Web3('')
+  web3 = new Web3('')
 }
+// if(netWorkInfo.platonNetUrl){
+//   web3 = new Web3(netWorkInfo.platonNetUrl);
+// }else{
+//   polkadotSetting.apiUrl === 'wss://supercube.pro'? web3 = new Web3('https://platonnet.chainx.org/'): web3 = new Web3('')
+// }
 let erc20Address: string;
 if(polkadotSetting.apiUrl === 'wss://supercube.pro'){
   erc20Address = 'atp18uylvwsppggu5wn458yxe0stetr7tpytyllaxc';

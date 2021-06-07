@@ -19,23 +19,23 @@ export interface CoinItem {
 function Endpoints({className = ''}: EndpointProps): React.ReactElement<EndpointProps> {
   const [isEndpoints, setIsEndpoints] = useState<boolean>(false);
   const {t} = useTranslation();
-  const {localCoin, localNet} = useContext(NetWorkContext)
+  const {currentCoinType, currentNetwork} = useContext(NetWorkContext)
 
   const _toggleEndpoints = (): void => setIsEndpoints(true);
 
-  const coinList: CoinItem[] = localNet.name ==='Alaya' ? [
+  const coinList: CoinItem[] = currentNetwork.name ==='Alaya' ? [
     {
       name: `KSM`,
       matchingNode: 'wss://supercube.pro',
       CoinIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/10/57/9c680d8b-3eab-45b5-9cbe-4c4f9dd1d870.svg',
       whiteIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/06/0ba15d9b-95c7-49b4-bda3-67ae2461e90e.svg'
     },
-    {
-      name: `XBTC`,
-      matchingNode: 'wss://chainx.supercube.pro/ws',
-      CoinIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/10/57/3c14ff90-3900-4a8a-9ae5-13923df6f118.svg',
-      whiteIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/06/a17d958b-e182-48d0-b090-1bb1e19ce4cf.svg'
-    },
+    // {
+    //   name: `XBTC`,
+    //   matchingNode: 'wss://chainx.supercube.pro/ws',
+    //   CoinIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/10/57/3c14ff90-3900-4a8a-9ae5-13923df6f118.svg',
+    //   whiteIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/06/a17d958b-e182-48d0-b090-1bb1e19ce4cf.svg'
+    // },
   ]: [
     {
       name: `DOT`,
@@ -43,23 +43,23 @@ function Endpoints({className = ''}: EndpointProps): React.ReactElement<Endpoint
       CoinIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/10/57/5a3086a0-6ca5-4bc0-bbe4-8bbb2ffaad76.svg',
       whiteIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/06/d3b55f7e-0679-480b-8f2c-ba90beb8d18b.svg'
     },
-    {
-      name: `XBTC`,
-      matchingNode: 'wss://chainx.supercube.pro/ws',
-      CoinIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/10/57/3c14ff90-3900-4a8a-9ae5-13923df6f118.svg',
-      whiteIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/06/a17d958b-e182-48d0-b090-1bb1e19ce4cf.svg'
-    },
+    // {
+    //   name: `XBTC`,
+    //   matchingNode: 'wss://chainx.supercube.pro/ws',
+    //   CoinIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/10/57/3c14ff90-3900-4a8a-9ae5-13923df6f118.svg',
+    //   whiteIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/06/a17d958b-e182-48d0-b090-1bb1e19ce4cf.svg'
+    // },
   ];
 
   return (
     <div className={`isBasic ${className}`}>
       <div className='coinInfo'>
         <div className="leftIcon">
-          <img src={localCoin.whiteIcon} alt={localCoin.coinName}/>
+          <img src={currentCoinType.whiteIcon} alt={currentCoinType.coinName}/>
         </div>
         <div className="rightCon">
           <div className="title">{t('The current currency')}</div>
-          <p className="tabEndpoints">{localCoin.coinName}</p>
+          <p className="tabEndpoints">{currentCoinType.coinName}</p>
         </div>
       </div>
 
