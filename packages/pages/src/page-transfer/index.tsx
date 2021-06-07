@@ -10,6 +10,7 @@ import { NetWorkContext } from '@polkadot/pages/components/NetWorkProvider';
 import { useTranslation } from '../components/translate';
 import Card from '@polkadot/pages/components/Card/Card';
 import CardContent from '@polkadot/pages/page-transfer/CardContent';
+import { animated, useSpring } from 'react-spring';
 
 interface Props {
   className?: string;
@@ -21,9 +22,14 @@ export default function TransferContent({className= ''}: Props): React.ReactElem
   const {hasAccounts} = useContext(PolkadotAccountsContext);
   const transferLength = Transfers.length;
   const {platonUnit} = useContext(NetWorkContext);
+  const transitionProps = useSpring({
+    to: { opacity: 1 },
+    from: { opacity: 0 } ,
+    config: { duration: 400 }
+  })
 
   return (
-    <Wrapper className={`contentWrapper ${className}`}>
+    <Wrapper style={transitionProps} className={`contentWrapper ${className}`}>
       {hasPlatonAccount && hasAccounts ?
         <Card className="left" title={`${platonUnit} ${t('Transfer')}`}>
           <CardContent/>
@@ -36,7 +42,7 @@ export default function TransferContent({className= ''}: Props): React.ReactElem
   );
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled(animated.div)`
   display: flex;
   justify-content: space-between;
   .left{

@@ -52,7 +52,7 @@ export const NetWorkProvider: FC = ({children}) => {
   });
 
   useEffect(() => {
-    if (polkadotSetting.apiUrl === 'wss://supercube.pro/ws') {
+    if (polkadotSetting.apiUrl === 'wss://supercube.pro') {
       setNetWork({
         name: 'Alaya',
         polkadotNetUrl: polkadotSetting.apiUrl,
@@ -60,8 +60,8 @@ export const NetWorkProvider: FC = ({children}) => {
       });
       setCoin({
         coinName: 'KSM',
-        whiteIcon: 'http://lc-XLoqMObG.cn-n1.lcfile.com/7f0b4956f9dd593c01ef.svg',
-        matchingNode: 'wss://supercube.pro/ws'
+        whiteIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/194/7/100/2021/05/26/20/05/efe804ac-ab52-4b31-826c-1abb967464ef.svg',
+        matchingNode: 'wss://supercube.pro'
       });
     } else if (polkadotSetting.apiUrl === 'wss://polkadot.elara.patract.io') {
       setNetWork({
@@ -71,13 +71,13 @@ export const NetWorkProvider: FC = ({children}) => {
       });
       setCoin({
         coinName: 'DOT',
-        whiteIcon: 'http://lc-XLoqMObG.cn-n1.lcfile.com/519b3e5ce282616f1cd7.svg',
+        whiteIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/194/7/100/2021/05/26/20/04/47fc37c2-b813-42c4-9236-86c6e882dbe3.svg',
         matchingNode: 'wss://polkadot.elara.patract.io'
       });
     } else if (polkadotSetting.apiUrl === 'wss://chainx.supercube.pro/ws') {
       setCoin({
         coinName: 'XBTC',
-        whiteIcon: 'http://lc-XLoqMObG.cn-n1.lcfile.com/e19d81cbc3ad30b636cd.svg',
+        whiteIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/194/7/100/2021/05/26/20/04/baf49e67-d072-4004-a51b-9d7d6447267c.svg',
         matchingNode: 'wss://chainx.supercube.pro/ws'
       });
       setNetWork({

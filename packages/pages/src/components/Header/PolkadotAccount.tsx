@@ -38,16 +38,16 @@ function PolkadotAccount(): React.ReactElement {
             accountAddress={currentAccount}
             accountAmount={usableBalance ? usableBalance : 0}
             iconNode={localCoin.coinName === 'KSM' ?
-              'http://lc-XLoqMObG.cn-n1.lcfile.com/0267c62c6d3ebcf003c4.svg' :
+              'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/06/0ba15d9b-95c7-49b4-bda3-67ae2461e90e.svg' :
               localCoin.coinName === 'XBTC' ?
-                'http://lc-XLoqMObG.cn-n1.lcfile.com/e19d81cbc3ad30b636cd.svg' :
-                'http://lc-XLoqMObG.cn-n1.lcfile.com/af0c6b2a22f2c51ca70d.svg'}
+                'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/06/a17d958b-e182-48d0-b090-1bb1e19ce4cf.svg' :
+                'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/06/d3b55f7e-0679-480b-8f2c-ba90beb8d18b.svg'}
             allAccounts={addressAndName}
             unit={localCoin.coinName}
             accountType='polkadot'
           /> :
           <Card isBasic className="pinkCard" label={promptMessage}
-                iconNode='http://lc-XLoqMObG.cn-n1.lcfile.com/86b2e36632644d5f5fdc.svg'
+                iconNode='https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/10/5396ff31-0665-4ccc-a83c-fa621b492c50.svg'
                 onClick={_clickPolkadot}/>
       }
     </>

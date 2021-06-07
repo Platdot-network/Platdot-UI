@@ -39,13 +39,13 @@ function NetWorkList(): React.ReactElement{
   const netList: NetWorkInfo[] = [
     {
       title: `Alaya ${t('network')}`,
-      iconUrl: 'http://lc-XLoqMObG.cn-n1.lcfile.com/bf834bf003fe7c3d2a68.svg',
-      polkadotNetUrl: "wss://supercube.pro/ws",
+      iconUrl: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/10/55/5703a7b2-6a4c-47fb-ad47-ae4b7d757ffb.svg',
+      polkadotNetUrl: "wss://supercube.pro",
       platOnNetUrl: "https://platonnet.chainx.org/"
     },
     {
       title: `PlatON ${t('network')}`,
-      iconUrl: 'http://lc-XLoqMObG.cn-n1.lcfile.com/a984a2950cd8099f093e.svg',
+      iconUrl: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/10/55/0ab5078d-5301-4bca-adcf-4688fa1fb8bb.svg',
       polkadotNetUrl: "wss://polkadot.elara.patract.io",
       platOnNetUrl: ""
     }

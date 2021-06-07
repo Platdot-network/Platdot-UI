@@ -29,11 +29,11 @@ function PlatonAccount() {
           accountName={netName === 'Alaya'? t('Alaya account'): t('PlatON account')}
           accountAddress={platonAccount}
           accountAmount={pdotAmount ? pdotAmount : 0}
-          iconNode={netWork.name.trim() === 'Alaya' ? 'http://lc-XLoqMObG.cn-n1.lcfile.com/df5990ab96edbde34115.svg' : 'http://lc-XLoqMObG.cn-n1.lcfile.com/49330e39b9a4631c4e0f.svg'}
+          iconNode={netWork.name.trim() === 'Alaya' ? 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/28/14/38/1d2811ff-3fe4-45c8-9e80-e56fd16d3920.svg' : 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/20/953c21a0-41fb-4f46-a58c-66b71f72d2f3.svg'}
           unit={platonUnit}
           accountType='platon'
         /> :
-        <Card isBasic className="greenCard" label={t('Sign in your PlatON account with the Samurai plugin')} iconNode='http://lc-XLoqMObG.cn-n1.lcfile.com/2a8160e1492ced7f4b2c.svg'
+        <Card isBasic className="greenCard" label={t('Sign in your PlatON account with the Samurai plugin')} iconNode='https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/10/fa4d9217-dc05-4081-8fd8-fad2e1d6e17b.svg'
               onClick={openSamurai}/>
       }
     </>

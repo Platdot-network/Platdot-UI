@@ -3,13 +3,12 @@ import { NavLink } from "react-router-dom";
 import { NodeItem } from "./index";
 interface Props {
   node: NodeItem;
-  id: number;
-  pathname: any;
+  pathname: string;
 }
 
-function SideItem({ node, id, pathname }: Props): React.ReactElement<Props> {
+function SideItem({ node, pathname }: Props): React.ReactElement<Props> {
+
   return (
-    // <li className={`navItem ${recordType.toString() === id.toString() ? "statusRisk" : ""}`} onClick={() => statusNode(node, id)}>
     <li className={`navItem ${pathname.toString() === node.link ? "statusRisk" : ""}`}>
       <NavLink to={node.link} exact activeClassName="selected">
         {pathname.toString() === node.link ? <>{node.icon_after}</> : <>{node.icon}</>}

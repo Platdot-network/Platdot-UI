@@ -55,13 +55,13 @@ export default function ({record, num, arrows, isReverse}: Props): React.ReactEl
           isReverse ?
             <>
               <Hash hash={platonAccount} className='address'/>
-              {arrows ? <img src='http://lc-XLoqMObG.cn-n1.lcfile.com/cb023eeb56945d0cd674.svg' alt='Arrow'
+              {arrows ? <img src='https://pic.stackoverflow.wiki/uploadImages/115/194/7/100/2021/05/26/18/00/4d497fcd-6ed6-4e18-b66d-af2b754908b8.svg' alt='Arrow'
                              className='arrow'/> : ''}
               <Hash hash={currentAccount} className='address'/>
             </> :
             <>
               <Hash hash={currentAccount} className='address'/>
-              {arrows ? <img src='http://lc-XLoqMObG.cn-n1.lcfile.com/cb023eeb56945d0cd674.svg' alt='Arrow'
+              {arrows ? <img src='https://pic.stackoverflow.wiki/uploadImages/115/194/7/100/2021/05/26/18/00/4d497fcd-6ed6-4e18-b66d-af2b754908b8.svg' alt='Arrow'
                              className='arrow'/> : ''}
               <Hash hash={platonAccount} className='address'/>
             </>

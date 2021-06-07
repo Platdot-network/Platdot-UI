@@ -70,7 +70,7 @@ export default function ToolTipConfig({list, isOpen, setIsOpen, listType}: ToolT
           <Shade/>
           <Wrapper>
             <div className="header">
-              <img src='http://lc-XLoqMObG.cn-n1.lcfile.com/dd2cf18768579432fc72.png' onClick={_toggle} alt=""/>
+              <img src='https://z3.ax1x.com/2021/05/26/2900N6.png' onClick={_toggle} alt=""/>
             </div>
             {list.map(function (item: any) {
               return (

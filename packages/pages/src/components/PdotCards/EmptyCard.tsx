@@ -17,7 +17,7 @@ export default function EmptyCard({ noDataMsg, title, className = '' }: dataProp
       <Title className={`ui-card-title`}>{title}</Title>
       <Content className="pdotCon">
         <Nodata className='nodata'>
-          <img src='http://lc-XLoqMObG.cn-n1.lcfile.com/40f3f2c50eb57913979a.svg' alt=''/>
+          <img src='https://pic.stackoverflow.wiki/uploadImages/115/194/7/100/2021/05/26/17/59/b7f37e1f-2d60-49d7-8e8b-00cf606c0cb9.svg' alt=''/>
           <p>{noDataMsg? noDataMsg: t('Please login to your Polkadot and PlatON accounts first')}</p>
         </Nodata>
       </Content>
