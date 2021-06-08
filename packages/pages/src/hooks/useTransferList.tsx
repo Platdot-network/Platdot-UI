@@ -28,7 +28,6 @@ interface AllRecords {
 }
 
 const mapNewRecords = (RecordsList: TransferResultItem[]): TransferItem[] => {
-
   return RecordsList.map((item: TransferResultItem) => ({
     from: item.returnValues.from,
     to: item.returnValues.to,
@@ -38,8 +37,16 @@ const mapNewRecords = (RecordsList: TransferResultItem[]): TransferItem[] => {
   })).reverse();
 };
 
-export const hexAddressToATP = (hexAddress: string) => {
-  return toBech32Address('atp', hexAddress);
+export const formatAddress = (hexAddress: string): string => {
+  //@ts-ignore
+  if (Number(window.alaya.chainId) === 210309) {
+    return toBech32Address('lat', hexAddress);
+    //@ts-ignore
+  } else if (Number(window.alaya.chainId) === 201030) {
+    return toBech32Address('atp', hexAddress);
+  } else {
+    return '';
+  }
 };
 
 export default function useTokenTransferList(currentAccount: string) {
@@ -58,18 +65,18 @@ export default function useTokenTransferList(currentAccount: string) {
         const PublishRecords: TransferItem[] = mapNewRecords(
           events.filter((element: EventData) =>
             element.returnValues.from === '0x0000000000000000000000000000000000000000' &&
-            hexAddressToATP(element.returnValues.to).toLowerCase() === account.toLowerCase())
+            formatAddress(element.returnValues.to).toLowerCase() === account.toLowerCase())
         );
         const RedeemRecords: TransferItem[] = mapNewRecords(
           events.filter((element: EventData) =>
-            hexAddressToATP(element.returnValues.from).toLowerCase() === account.toLowerCase() &&
+            formatAddress(element.returnValues.from).toLowerCase() === account.toLowerCase() &&
             element.returnValues.to === '0x0000000000000000000000000000000000000000')
         );
         const Transfers: TransferItem[] = mapNewRecords(
           events.filter((element: EventData) => (
-            (hexAddressToATP(element.returnValues.from).toLowerCase() === account.toLowerCase() &&
+            (formatAddress(element.returnValues.from).toLowerCase() === account.toLowerCase() &&
               element.returnValues.to !== '0x0000000000000000000000000000000000000000') ||
-            (hexAddressToATP(element.returnValues.to).toLowerCase() === account.toLowerCase() &&
+            (formatAddress(element.returnValues.to).toLowerCase() === account.toLowerCase() &&
               element.returnValues.from !== '0x0000000000000000000000000000000000000000')
           ))
         );
@@ -90,12 +97,12 @@ export default function useTokenTransferList(currentAccount: string) {
     ).subscribe((result: any) => {
         const publishRecords = result.filter((event: EventData) =>
           event.returnValues.from === '0x0000000000000000000000000000000000000000' &&
-          hexAddressToATP(event.returnValues.to).toLowerCase() === currentAccount.toLowerCase());
+          formatAddress(event.returnValues.to).toLowerCase() === currentAccount.toLowerCase());
         const redeemRecords = result.filter((event: EventData) =>
-          hexAddressToATP(event.returnValues.from).toLowerCase() === currentAccount.toLowerCase() &&
-          event.returnValues.to === '0x0000000000000000000000000000000000000000')
+          formatAddress(event.returnValues.from).toLowerCase() === currentAccount.toLowerCase() &&
+          event.returnValues.to === '0x0000000000000000000000000000000000000000');
         setPublishRecordsLength(publishRecords.length);
-        setRedeemRecordsLength(redeemRecords.length)
+        setRedeemRecordsLength(redeemRecords.length);
       }
     );
 
