@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { erc20_minter_contract } from '@polkadot/pages/contract';
-import { interval } from 'rxjs';
+import { interval } from '@polkadot/x-rxjs';
 import { toBech32Address } from 'web3/packages/web3-utils';
 import { EventData } from 'web3/packages/web3-eth-contract';
 import { fromPromise } from 'rxjs/internal-compatibility';
@@ -43,8 +43,14 @@ export const hexAddressToATP = (hexAddress: string) => {
 };
 
 export default function useTokenTransferList(currentAccount: string) {
-  const [state, setState] = useState<AllRecords>({PublishRecords: [], RedeemRecords: [], Transfers: [], RecordsList: []});
-  const [recordsNum, setRecordsNum] = useState<number>(0)
+  const [state, setState] = useState<AllRecords>({
+    PublishRecords: [],
+    RedeemRecords: [],
+    Transfers: [],
+    RecordsList: []
+  });
+  const [publishRecordsLength, setPublishRecordsLength] = useState<number>(-1);
+  const [redeemRecordsLength, setRedeemRecordsLength] = useState<number>(-1);
 
   const fetchTransfers = (account: string) => {
     erc20_minter_contract.getPastEvents('Transfer', {fromBlock: 0},
@@ -76,21 +82,31 @@ export default function useTokenTransferList(currentAccount: string) {
       });
   };
 
-  useEffect((): () => void => {
-    const fetchTransfers$ = interval(1000)
-      .pipe(
-        switchMap(() => {
-          return fromPromise( erc20_minter_contract.getPastEvents('Transfer', {fromBlock: 0}));
-        })
-      )
-      .subscribe((e: any) => setRecordsNum(e.length));
+  useEffect(() => {
+    const fetchTransfers$ = interval(1000).pipe(
+      switchMap(() =>
+        fromPromise(erc20_minter_contract.getPastEvents('Transfer', {fromBlock: 0}))
+      ),
+    ).subscribe((result: any) => {
+        const publishRecords = result.filter((event: EventData) =>
+          event.returnValues.from === '0x0000000000000000000000000000000000000000' &&
+          hexAddressToATP(event.returnValues.to).toLowerCase() === currentAccount.toLowerCase());
+        const redeemRecords = result.filter((event: EventData) =>
+          hexAddressToATP(event.returnValues.from).toLowerCase() === currentAccount.toLowerCase() &&
+          event.returnValues.to === '0x0000000000000000000000000000000000000000')
+        setPublishRecordsLength(publishRecords.length);
+        setRedeemRecordsLength(redeemRecords.length)
+      }
+    );
 
-    return () => fetchTransfers$.unsubscribe();
-  }, []);
+    return () => {
+      fetchTransfers$.unsubscribe();
+    };
+  }, [currentAccount]);
 
   useEffect(() => {
-    fetchTransfers(currentAccount)
-  }, [recordsNum])
+    fetchTransfers(currentAccount);
+  }, [publishRecordsLength, redeemRecordsLength]);
 
   return {state, fetchTransfers};
 }

@@ -39,7 +39,7 @@ function Endpoints({className = ''}: EndpointProps): React.ReactElement<Endpoint
   ]: [
     {
       name: `DOT`,
-      matchingNode: 'wss://polkadot.elara.patract.io',
+      matchingNode: 'wss://dot.supercube.pro',
       CoinIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/10/57/5a3086a0-6ca5-4bc0-bbe4-8bbb2ffaad76.svg',
       whiteIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/06/d3b55f7e-0679-480b-8f2c-ba90beb8d18b.svg'
     },

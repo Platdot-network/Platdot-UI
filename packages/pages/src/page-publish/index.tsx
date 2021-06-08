@@ -36,7 +36,7 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
   const amountToBigNumber = new BigNumber(amount);
   const {formatProperties} = useContext<ApiProps>(ApiContext);
   const usableBalanceToBigNumber = (new BigNumber(usableBalance)).div(formatProperties ? Math.pow(10, formatProperties.tokenDecimals[0]) : 1e1).toNumber();
-  const {netName, currentCoinType} = useContext(NetWorkContext);
+  const {currentNetwork, currentCoinType} = useContext(NetWorkContext);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isButtonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [transaction, setTransaction] = useState<string>('');
@@ -65,7 +65,7 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
         setCharge(tipInXBTC);
       }
     }
-  }, [amount, netName]);
+  }, [amount, currentCoinType.coinName]);
 
   useEffect(() => {
     setIsChargeEnough(usableBalanceToBigNumber > charge && usableBalanceToBigNumber > amountToBigNumber.toNumber() + charge);
@@ -118,10 +118,13 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
           api.tx.system.remark(platonAccount)
         ];
       } else {
+        let remarkParams;
+        currentNetwork.name === 'PlatON'? remarkParams = '4,002': remarkParams = '2,000'
         param = [
           api.tx.balances.transferKeepAlive('5F3NgH5umL6dg6rmtKEm6m7z75YZwkBkyTybksL9CZfXxvPT', amountToPrecision),
-          api.tx.system.remark(platonAccount)
+          api.tx.system.remark(`${remarkParams},${platonAccount}`)
         ];
+        console.log(`${remarkParams},${platonAccount}`)
       }
       api.tx.utility.batch(param)
         .signAndSend(

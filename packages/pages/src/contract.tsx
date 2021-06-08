@@ -1,40 +1,59 @@
-import {toUtf8Bytes} from 'ethers/lib/utils';
-import {bytesToHex} from 'web3/packages/web3-utils';
-import {decodeAddress} from '@polkadot/keyring';
-import {u8aToHex} from '@polkadot/util';
+import { toUtf8Bytes } from 'ethers/lib/utils';
+import { bytesToHex } from 'web3/packages/web3-utils';
+import { decodeAddress } from '@polkadot/keyring';
+import { u8aToHex } from '@polkadot/util';
 import uiSettings from '@polkadot/ui-settings';
 import BigNumber from 'bignumber.js';
 import { CoinInfo, NetWorkInfo } from '@polkadot/pages/components/NetWorkProvider';
 
 const Ethers = require('ethers');
 const Web3 = require('web3');
-const netWorkInfo: NetWorkInfo = JSON.parse(window.localStorage.getItem('netWork') || '{}')
-const coinInfo: CoinInfo= JSON.parse(window.localStorage.getItem('coinInfo') || '{}')
+const netWorkInfo: NetWorkInfo = JSON.parse(window.localStorage.getItem('netWork') || '{}');
+const coinInfo: CoinInfo = JSON.parse(window.localStorage.getItem('coinInfo') || '{}');
 //@ts-ignore
-const currentChainId = Number(window.alaya.chainId)
+const currentChainId = Number(window.alaya.chainId);
+const polkadotSetting = uiSettings.get();
 let web3;
-const polkadotSetting = uiSettings.get()
+let erc20Address: string;
+let handlerAddress: string;
+let bridgeAddress: string;
+let chainId: number;
+let resourceID: string;
 
-if(currentChainId === 100){
-  web3 = new Web3('https://platonnet.chainx.org/')
-}else if(currentChainId === 201018){
-  web3 = new Web3('https://platonnet.chainx.org/')
-}else{
-  web3 = new Web3('')
+if (currentChainId === 210309) {
+  web3 = new Web3('http://127.0.0.1:6789');
+  erc20Address = 'lat1uc38t2lghef8ccz4aw8r8d5hmnvs7qyvf6rjqe';
+  handlerAddress = 'lat18svtj54uzxpxunu0q63fsenyy66skz2eaw4lz3';
+  bridgeAddress = 'lat13kpqglnd5xl699smjulk64v048ku7d50p3yntw';
+  chainId = 3;
+  resourceID = '0x0000000000000000000000000000000000000000000000000000000000000002';
+} else if (currentChainId === 201030) {
+  web3 = new Web3('https://platonnet.chainx.org/');
+  erc20Address = 'atp18uylvwsppggu5wn458yxe0stetr7tpytyllaxc';
+  handlerAddress = 'atp15nqwyjpffntmgg05aq6u7frdvy60qnm82007q5';
+  bridgeAddress = 'atp1emxqzwmz0nv5pxk3h9e2dp3p6djfkqwn4v05zk';
+  chainId = 1;
+  resourceID = '0x0000000000000000000000000000000000000000000000000000000000000000';
+} else {
+  web3 = new Web3('');
+  erc20Address = '';
+  handlerAddress = '';
+  bridgeAddress = '';
+  resourceID = '';
 }
+console.log('web3', web3);
 // if(netWorkInfo.platonNetUrl){
 //   web3 = new Web3(netWorkInfo.platonNetUrl);
 // }else{
 //   polkadotSetting.apiUrl === 'wss://supercube.pro'? web3 = new Web3('https://platonnet.chainx.org/'): web3 = new Web3('')
 // }
-let erc20Address: string;
-if(polkadotSetting.apiUrl === 'wss://supercube.pro'){
-  erc20Address = 'atp18uylvwsppggu5wn458yxe0stetr7tpytyllaxc';
-}else if(polkadotSetting.apiUrl === 'wss://chainx.supercube.pro/ws'){
-  erc20Address = 'atp15r65x5lwydl2m24c8yjz35pmykfvynd9gvf86m'
-}else{
-  erc20Address = 'atp18uylvwsppggu5wn458yxe0stetr7tpytyllaxc'
-}
+// if(polkadotSetting.apiUrl === 'wss://supercube.pro'){
+//   erc20Address = 'atp18uylvwsppggu5wn458yxe0stetr7tpytyllaxc';
+// }else if(polkadotSetting.apiUrl === 'wss://chainx.supercube.pro/ws'){
+//   erc20Address = 'atp15r65x5lwydl2m24c8yjz35pmykfvynd9gvf86m'
+// }else{
+//   erc20Address = 'atp18uylvwsppggu5wn458yxe0stetr7tpytyllaxc'
+// }
 const {ppos} = web3;
 const bridge_abi = [
   {
@@ -1652,41 +1671,38 @@ const adminAddress = 'atp18hqda4eajphkfarxaa2rutc5dwdwx9z5vy2nmh';
 const ghjieAddress = 'atx1j4ncnc4ajm8ut0nvg2n34uedtz3kuecmsdf7qd';
 const rjmanAddress = 'atx1sy2tvmghdv47hwz89yu9wz2y29nd0frr0578e3';
 
-const bridgeAddress = 'atp1emxqzwmz0nv5pxk3h9e2dp3p6djfkqwn4v05zk';
-const handlerAddress = 'atp15nqwyjpffntmgg05aq6u7frdvy60qnm82007q5';
-const resourceID = '0x0000000000000000000000000000000000000000000000000000000000000000';
 const erc20_minter_contract = new web3.platon.Contract(erc20miner_abi);
 erc20_minter_contract.options.address = erc20Address;
-erc20_minter_contract.options.from = adminAddress;
+// erc20_minter_contract.options.from = adminAddress;
 
 const bridge_contract = new web3.platon.Contract(bridge_abi);
 bridge_contract.options.address = bridgeAddress;
-bridge_contract.options.from = adminAddress;
+// bridge_contract.options.from = adminAddress;
 
-const hexlifyAmount = (value) => {
-  const HexCharacters: string = "0123456789abcdef";
-  let hex = "";
+const hexlifyAmount = (value: number): string => {
+  const HexCharacters: string = '0123456789abcdef';
+  let hex = '';
   while (value) {
     hex = HexCharacters[value & 0x0f] + hex;
     value = Math.floor(value / 16);
   }
   if (hex.length) {
-    if (hex.length % 2) { hex = "0" + hex; }
-    return "0x" + hex;
+    if (hex.length % 2) { hex = '0' + hex; }
+    return '0x' + hex;
   }
-  return "0x00";
-}
+  return '0x00';
+};
 
-const amountToHex = (covertThis, padding) => {
+const amountToHex = (covertThis: number, padding: number): string => {
   return Ethers.utils.hexZeroPad(hexlifyAmount(covertThis), padding);
 };
 
-const addressToHex = (covertThis, padding) => {
+const addressToHex = (covertThis: number, padding: number): string => {
   return Ethers.utils.hexZeroPad(Ethers.utils.hexlify(covertThis), padding);
 };
 
 
-const createERCDepositData = (tokenAmountOrID, lenRecipientAddress, recipientAddress) => {
+const createERCDepositData = (tokenAmountOrID: number, lenRecipientAddress: number, recipientAddress: string): string => {
   return '0x' +
     amountToHex(tokenAmountOrID, 32).substr(2) +      // Token amount or ID to deposit (32 bytes)
     addressToHex(lenRecipientAddress, 32).substr(2) + // len(recipientAddress)          (32 bytes)
@@ -1694,7 +1710,7 @@ const createERCDepositData = (tokenAmountOrID, lenRecipientAddress, recipientAdd
 };
 
 const addressToPublicKey = (address: string): string => {
-  return u8aToHex(decodeAddress(address))
+  return u8aToHex(decodeAddress(address));
 };
 
 const createApproveTransactionParameters = (from: string, amount: BigNumber) => {
@@ -1705,25 +1721,22 @@ const createApproveTransactionParameters = (from: string, amount: BigNumber) => 
     value: '0', // Only required to send ether to the recipient from the initiating external account.
     data: erc20_minter_contract.methods.approve(handlerAddress, amount.toString()).encodeABI(),
   };
-}
+};
 
 const createDepositTransactionParameters = (from: string, to: string, amount: BigNumber) => {
-  let chainId: number;
-  let resourceId: string;
 
-  if(coinInfo.coinName === 'XBTC'){
-    chainId = 3
-    resourceId = "0x0000000000000000000000000000000000000000000000000000000000000001"
-  }else{
-    chainId = 1
-    resourceId = "0x0000000000000000000000000000000000000000000000000000000000000000"
-  }
+
+  // if(coinInfo.coinName === 'XBTC'){
+  //   chainId = 3
+  //   resourceId = "0x0000000000000000000000000000000000000000000000000000000000000001"
+  // }else{
+  // }
   return {
     nonce: '0x00', // ignored by MetaMask
     to: bridgeAddress,
     from, // must match user's active address.
     value: '0', // Only required to send ether to the recipient from the initiating external account.
-    data: bridge_contract.methods.deposit(chainId, resourceId, createERCDepositData(amount.toNumber(), 66, bytesToHex(toUtf8Bytes(addressToPublicKey(to))))).encodeABI(),
+    data: bridge_contract.methods.deposit(chainId, resourceID, createERCDepositData(amount.toNumber(), 66, bytesToHex(toUtf8Bytes(addressToPublicKey(to))))).encodeABI(),
   };
 };
 
@@ -1734,8 +1747,8 @@ const createTransferTransactionParameters = (from: string, amount: string, to: s
     from, // must match user's active address.
     value: '0x00', // Only required to send ether to the recipient from the initiating external account.
     data: erc20_minter_contract.methods.transfer(to, ((new BigNumber(amount)).times(1e18)).toString()).encodeABI(),
-  }
-}
+  };
+};
 
 
 export {

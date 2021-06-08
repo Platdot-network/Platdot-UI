@@ -46,7 +46,7 @@ function NetWorkList(): React.ReactElement{
     {
       title: `PlatON ${t('network')}`,
       iconUrl: 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/10/55/0ab5078d-5301-4bca-adcf-4688fa1fb8bb.svg',
-      polkadotNetUrl: "wss://polkadot.elara.patract.io",
+      polkadotNetUrl: "wss://dot.supercube.pro",
       platOnNetUrl: ""
     }
   ];

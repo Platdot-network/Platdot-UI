@@ -32,9 +32,10 @@ export default function RedeemContent({className}: Props): React.ReactElement<Pr
   const pdotAmountToBigNumber = (new BigNumber(pdotAmount)).div(1e18).toNumber();
   const amountToBigNumber = new BigNumber(amount);
   const [isChargeEnough, setIsChargeEnough] = useState<boolean>(true);
-  const {platonUnit, netName, currentCoinType} = useContext(NetWorkContext);
+  const {platonUnit, currentNetwork, currentCoinType} = useContext(NetWorkContext);
   const [isButtonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [transaction, setTransaction] = useState<string>('');
   const transitionProps = useSpring({
     to: { opacity: 1 },
     from: { opacity: 0 } ,
@@ -60,7 +61,7 @@ export default function RedeemContent({className}: Props): React.ReactElement<Pr
         setCharge(tipInXBTC)
       }
     }
-  }, [amount, netName]);
+  }, [amount, currentNetwork, currentCoinType.coinName]);
 
   useEffect(() => {
     setIsChargeEnough(pdotAmountToBigNumber > charge && pdotAmountToBigNumber >= amountToBigNumber.toNumber());
@@ -83,6 +84,17 @@ export default function RedeemContent({className}: Props): React.ReactElement<Pr
     queueAction(status as ActionStatus);
   };
 
+  useEffect(() => {
+    transaction && RedeemRecords.unshift({
+      from: currentAccount,
+      to: platonAccount,
+      value: '',
+      transactionHash: transaction,
+      blockNumber: 0,
+    });
+  }, [transaction]);
+
+
   const redeem = (): void => {
     if (platonAccount && amountToBigNumber.toNumber() && isChargeEnough && (amountToBigNumber.toNumber() > charge)) {
       try {
@@ -100,6 +112,7 @@ export default function RedeemContent({className}: Props): React.ReactElement<Pr
               creatStatusInfo(status, 'success', `${t('Transaction hash')}: ${result}`);
               queueAction(status as ActionStatus);
               setButtonDisabled(false);
+              setTransaction(result);
             })
             .catch(error => {
               sendErrorStatus(error);
