@@ -9,7 +9,7 @@
 
 ```
 git clone https://github.com/Platdot-network/Platdot-UI.git
-cd ./Platdot
+cd ./Platdot-UI
 yarn install
 yarn start
 ```
