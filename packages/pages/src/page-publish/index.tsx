@@ -126,7 +126,7 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
         ];
         console.log(`${remarkParams},${platonAccount}`)
       }
-      api.tx.utility.batch(param)
+      api.tx.utility.batchAll(param)
         .signAndSend(
           currentAccount,
           {signer: injector.signer},
