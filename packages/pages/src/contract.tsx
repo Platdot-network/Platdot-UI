@@ -21,14 +21,14 @@ let chainId: number;
 let resourceID: string;
 
 if (currentChainId === 210309) {
-  web3 = new Web3('ws://devnetchainx.platon.network');
+  web3 = new Web3('wss://devnetchainx.platon.network');
   erc20Address = 'lat1uc38t2lghef8ccz4aw8r8d5hmnvs7qyvf6rjqe';
   handlerAddress = 'lat18svtj54uzxpxunu0q63fsenyy66skz2eaw4lz3';
   bridgeAddress = 'lat13kpqglnd5xl699smjulk64v048ku7d50p3yntw';
   chainId = 3;
   resourceID = '0x0000000000000000000000000000000000000000000000000000000000000002';
 } else if (currentChainId === 201030) {
-  web3 = new Web3('ws://devnetchainx.alaya.network');
+  web3 = new Web3('wss://devnetchainx.alaya.network');
   erc20Address = 'atp18uylvwsppggu5wn458yxe0stetr7tpytyllaxc';
   handlerAddress = 'atp15nqwyjpffntmgg05aq6u7frdvy60qnm82007q5';
   bridgeAddress = 'atp1emxqzwmz0nv5pxk3h9e2dp3p6djfkqwn4v05zk';
@@ -1734,7 +1734,7 @@ const createDepositTransactionParameters = (from: string, to: string, amount: Bi
     nonce: '0x00', // ignored by MetaMask
     to: bridgeAddress,
     from, // must match user's active address.
-    value: '0', // Only required to send ether to the recipient from the initiating external account.
+    value: '16345785d8a0000', // Only required to send ether to the recipient from the initiating external account.
     data: bridge_contract.methods.deposit(chainId, resourceID, createERCDepositData(amount.toNumber(), 66, bytesToHex(toUtf8Bytes(addressToPublicKey(to))))).encodeABI(),
   };
 };
