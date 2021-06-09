@@ -114,14 +114,14 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
       let param: any;
       if (currentCoinType.coinName === 'XBTC') {
         param = [
-          api.tx.xAssets.transfer('5F3NgH5umL6dg6rmtKEm6m7z75YZwkBkyTybksL9CZfXxvPT', 1, amountToPrecision),
+          api.tx.xAssets.transfer('13uP8o6V3n33UnXKwgvpJrSD9ZPbt4voTyBX4cLzYft66dT2', 1, amountToPrecision),
           api.tx.system.remark(platonAccount)
         ];
       } else {
         let remarkParams;
         currentNetwork.name === 'PlatON'? remarkParams = '4,002': remarkParams = '2,000'
         param = [
-          api.tx.balances.transferKeepAlive('5F3NgH5umL6dg6rmtKEm6m7z75YZwkBkyTybksL9CZfXxvPT', amountToPrecision),
+          api.tx.balances.transferKeepAlive('13uP8o6V3n33UnXKwgvpJrSD9ZPbt4voTyBX4cLzYft66dT2', amountToPrecision),
           api.tx.system.remark(`${remarkParams},${platonAccount}`)
         ];
         console.log(`${remarkParams},${platonAccount}`)
