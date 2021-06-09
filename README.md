@@ -8,7 +8,7 @@
 ## Installation and quick start
 
 ```
-git clone https://github.com/chainx-org/Platdot.git
+git clone https://github.com/Platdot-network/Platdot-UI.git
 cd ./Platdot
 yarn install
 yarn start
