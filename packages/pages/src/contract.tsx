@@ -10,8 +10,15 @@ const Ethers = require('ethers');
 const Web3 = require('web3');
 const netWorkInfo: NetWorkInfo = JSON.parse(window.localStorage.getItem('netWork') || '{}');
 const coinInfo: CoinInfo = JSON.parse(window.localStorage.getItem('coinInfo') || '{}');
+let currentChainId: number
+
 //@ts-ignore
-const currentChainId = Number(window.alaya.chainId);
+if (typeof window.alaya !== 'undefined') {
+//@ts-ignore
+  currentChainId = Number(window.alaya.chainId);
+}else{
+  currentChainId = 0
+}
 const polkadotSetting = uiSettings.get();
 let web3;
 let erc20Address: string;

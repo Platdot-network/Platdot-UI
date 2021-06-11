@@ -30,7 +30,7 @@ export default function TransferContent({className= ''}: Props): React.ReactElem
 
   return (
     <Wrapper style={transitionProps} className={`contentWrapper ${className}`}>
-      {hasPlatonAccount && hasAccounts ?
+      {window.alaya && hasPlatonAccount && hasAccounts ?
         <Card className="left" title={`${platonUnit} ${t('Transfer')}`}>
           <CardContent/>
         </Card>

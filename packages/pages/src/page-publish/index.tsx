@@ -155,7 +155,7 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
 
   return (
     <Wrapper style={transitionProps} className={`contentWrapper ${className}`}>
-      {hasPlatonAccount && hasAccounts && isApiReady ? (
+      {window.alaya && hasPlatonAccount && hasAccounts && isApiReady ? (
           <Card className='left' title={`${t('Publish')} ${currentCoinType.coinName}`}>
             <CardContent
               tokenName={currentCoinType.coinName}

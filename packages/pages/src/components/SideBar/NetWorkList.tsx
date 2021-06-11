@@ -53,7 +53,7 @@ function NetWorkList(): React.ReactElement{
 
   return (
     <Wrapper onClick={() => setIsShow(!isShow)}>
-      <span>{`${platonNet.name} ${t('network')}`}</span>
+      <span>{`${platonNet.name? platonNet.name : ''} ${t('network')}`}</span>
       {/*<Icon icon={`${isShow? 'caret-up': 'caret-down'}`}/>*/}
       {/*{isShow && <NetOption netList={netList}/>}*/}
     </Wrapper>

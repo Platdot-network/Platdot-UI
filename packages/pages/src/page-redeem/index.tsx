@@ -131,7 +131,7 @@ export default function RedeemContent({className}: Props): React.ReactElement<Pr
 
   return (
     <Wrapper style={transitionProps} className={`contentWrapper ${className}`}>
-      {hasPlatonAccount && hasAccounts && isApiReady ? (
+      {window.alaya && hasPlatonAccount && hasAccounts && isApiReady ? (
           <Card className='left' title={`${t('Redeem')} ${platonUnit}`}>
             <CardContent
               tokenName={platonUnit}

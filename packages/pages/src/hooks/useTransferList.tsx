@@ -112,7 +112,10 @@ export default function useTokenTransferList(currentAccount: string) {
   }, [currentAccount]);
 
   useEffect(() => {
-    fetchTransfers(currentAccount);
+    if (typeof window.alaya !== 'undefined') {
+
+      fetchTransfers(currentAccount);
+    }
   }, [publishRecordsLength, redeemRecordsLength]);
 
   return {state, fetchTransfers};

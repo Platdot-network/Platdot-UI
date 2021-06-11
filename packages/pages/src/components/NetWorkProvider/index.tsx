@@ -38,7 +38,7 @@ export const NetWorkProvider: FC = ({children}) => {
   const [platonNet, setPlatonNet] = useState({} as PlatonNet);
 
   //@ts-ignore
-  if (window.alaya !== 'undefined') {
+  if (typeof window.alaya !== 'undefined') {
     //@ts-ignore
     alaya.on('chainChanged', (chainId: string) => {
       if(Number(chainId) === 201030){
@@ -51,19 +51,21 @@ export const NetWorkProvider: FC = ({children}) => {
 
   useEffect(() => {
     //@ts-ignore
-    if (Number(window.alaya.chainId) === 201030) {
-      setPlatonNet({
-        name: 'Alaya',
-        url: 'https://platonnet.chainx.org'
-      });
-      //@ts-ignore
-    } else if (Number(window.alaya.chainId) === 210309) {
-      setPlatonNet({
-        name: 'PlatON',
-        url: ''
-      });
+    if(window.alaya){
+      if (Number(window.alaya.chainId) === 201030) {
+        setPlatonNet({
+          name: 'Alaya',
+          url: 'https://platonnet.chainx.org'
+        });
+        //@ts-ignore
+      } else if (Number(window.alaya.chainId) === 210309) {
+        setPlatonNet({
+          name: 'PlatON',
+          url: ''
+        });
+      }
     }
-  }, []);
+  }, [window.alaya]);
 
   useEffect(() => {
     if (polkadotSetting.apiUrl === 'wss://supercube.pro') {
