@@ -17,5 +17,7 @@ yarn start
 ## Build project
 ```
 yarn run build:www
+
+// Then hang the directory /packages/apps/build under the web server
 ```
 
