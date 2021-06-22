@@ -5,6 +5,7 @@ import { u8aToHex } from '@polkadot/util';
 import uiSettings from '@polkadot/ui-settings';
 import BigNumber from 'bignumber.js';
 import { CoinInfo, NetWorkInfo } from '@polkadot/pages/components/NetWorkProvider';
+import { api } from '@polkadot/react-api';
 
 const Ethers = require('ethers');
 const Web3 = require('web3');
@@ -26,28 +27,37 @@ let handlerAddress: string;
 let bridgeAddress: string;
 let chainId: number;
 let resourceID: string;
+let platonWssConnect: boolean;
+let depositCharge: string;
 
-if (currentChainId === 210309) {
-  web3 = new Web3('wss://devnetchainx.platon.network');
-  erc20Address = 'lat1uc38t2lghef8ccz4aw8r8d5hmnvs7qyvf6rjqe';
-  handlerAddress = 'lat18svtj54uzxpxunu0q63fsenyy66skz2eaw4lz3';
-  bridgeAddress = 'lat13kpqglnd5xl699smjulk64v048ku7d50p3yntw';
+if (currentChainId === 100) {
+  web3 = new Web3('https://chainx.platon.network');
+  erc20Address = 'lat1m92uakskz5j0ea47m95unw0wvjdajl02sr79pd';
+  handlerAddress = 'lat1sx7qh5xgrevyh8r6qhp7qz9n7yapwvglvl2tn7';
+  bridgeAddress = 'lat1uy77509rela06hz934r3k0zyrx6vewsl4lcjec';
   chainId = 3;
   resourceID = '0x0000000000000000000000000000000000000000000000000000000000000002';
-} else if (currentChainId === 201030) {
-  web3 = new Web3('wss://devnetchainx.alaya.network');
-  erc20Address = 'atp18uylvwsppggu5wn458yxe0stetr7tpytyllaxc';
-  handlerAddress = 'atp15nqwyjpffntmgg05aq6u7frdvy60qnm82007q5';
-  bridgeAddress = 'atp1emxqzwmz0nv5pxk3h9e2dp3p6djfkqwn4v05zk';
+  depositCharge = '16345785d8a0000';
+} else if (currentChainId === 201018) {
+  web3 = new Web3('https://chainx.alaya.network');
+  erc20Address = 'atp1ptkhtxy2q5cu2dlg3fp383wjdyvjkgm6f0pg7l';
+  handlerAddress = 'atp1yrymvhscszmesewvfn8trk6pt4stn4lw4d83nc';
+  bridgeAddress = 'atp129acqwkaqqcffey6l6exa7cs2atjyvewp9srva';
   chainId = 1;
   resourceID = '0x0000000000000000000000000000000000000000000000000000000000000000';
+  depositCharge = '2386f26fc10000';
 } else {
   web3 = new Web3('');
+  platonWssConnect = false;
   erc20Address = '';
   handlerAddress = '';
   bridgeAddress = '';
   resourceID = '';
+  depositCharge = '0x00'
 }
+
+// console.log('platonWss', web3.currentProvider.connection.url)
+
 // if(netWorkInfo.platonNetUrl){
 //   web3 = new Web3(netWorkInfo.platonNetUrl);
 // }else{
@@ -1741,7 +1751,7 @@ const createDepositTransactionParameters = (from: string, to: string, amount: Bi
     nonce: '0x00', // ignored by MetaMask
     to: bridgeAddress,
     from, // must match user's active address.
-    value: '16345785d8a0000', // Only required to send ether to the recipient from the initiating external account.
+    value: depositCharge, // Only required to send ether to the recipient from the initiating external account.
     data: bridge_contract.methods.deposit(chainId, resourceID, createERCDepositData(amount.toNumber(), 66, bytesToHex(toUtf8Bytes(addressToPublicKey(to))))).encodeABI(),
   };
 };
@@ -1755,7 +1765,6 @@ const createTransferTransactionParameters = (from: string, amount: string, to: s
     data: erc20_minter_contract.methods.transfer(to, ((new BigNumber(amount)).times(1e18)).toString()).encodeABI(),
   };
 };
-
 
 export {
   blankFunctionSig,
@@ -1773,5 +1782,6 @@ export {
   erc20Address,
   handlerAddress,
   addressToPublicKey,
-  web3
+  web3,
+  platonWssConnect
 };

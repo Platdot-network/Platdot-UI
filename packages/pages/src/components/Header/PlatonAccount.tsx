@@ -27,7 +27,7 @@ function PlatonAccount() {
           accountName={currentNetwork.name === 'Alaya'? t('Alaya account'): t('PlatON account')}
           accountAddress={platonAccount}
           accountAmount={pdotAmount ? pdotAmount : 0}
-          iconNode={currentNetwork.name.trim() === 'Alaya' ? 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/28/14/38/1d2811ff-3fe4-45c8-9e80-e56fd16d3920.svg' : 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/20/953c21a0-41fb-4f46-a58c-66b71f72d2f3.svg'}
+          iconNode={currentNetwork.name === 'Alaya' ? 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/28/14/38/1d2811ff-3fe4-45c8-9e80-e56fd16d3920.svg' : 'https://pic.stackoverflow.wiki/uploadImages/115/195/145/17/2021/05/27/11/20/953c21a0-41fb-4f46-a58c-66b71f72d2f3.svg'}
           unit={platonUnit}
           accountType='platon'
         /> :

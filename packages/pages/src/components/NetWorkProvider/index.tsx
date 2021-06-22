@@ -41,10 +41,10 @@ export const NetWorkProvider: FC = ({children}) => {
   if (typeof window.alaya !== 'undefined') {
     //@ts-ignore
     alaya.on('chainChanged', (chainId: string) => {
-      if(Number(chainId) === 201030){
-        saveAndReload({...uiSettings.get(), apiUrl: 'wss://supercube.pro'});
-      }else if(Number(chainId) === 210309){
-        saveAndReload({...uiSettings.get(), apiUrl: 'wss://dot.supercube.pro'});
+      if(Number(chainId) === 201018){
+        saveAndReload({...uiSettings.get(), apiUrl: 'wss://kusama.elara.patract.io'});
+      }else if(Number(chainId) === 100){
+        saveAndReload({...uiSettings.get(), apiUrl: 'wss://rpc.polkadot.io'});
       }
     });
   }
@@ -52,23 +52,23 @@ export const NetWorkProvider: FC = ({children}) => {
   useEffect(() => {
     //@ts-ignore
     if(window.alaya){
-      if (Number(window.alaya.chainId) === 201030) {
+      if (Number(window.alaya.chainId) === 201018) {
         setPlatonNet({
           name: 'Alaya',
-          url: 'https://platonnet.chainx.org'
+          url: 'ws://chainx.alaya.network'
         });
         //@ts-ignore
-      } else if (Number(window.alaya.chainId) === 210309) {
+      } else if (Number(window.alaya.chainId) === 100) {
         setPlatonNet({
           name: 'PlatON',
-          url: ''
+          url: 'ws://chainx.platon.network'
         });
       }
     }
   }, [window.alaya]);
 
   useEffect(() => {
-    if (polkadotSetting.apiUrl === 'wss://supercube.pro') {
+    if (polkadotSetting.apiUrl === 'wss://kusama.elara.patract.io') {
       setCurrentNetwork({
         name: 'Alaya',
         polkadotNetUrl: polkadotSetting.apiUrl,
@@ -77,9 +77,9 @@ export const NetWorkProvider: FC = ({children}) => {
       setCurrentCoinType({
         coinName: 'KSM',
         whiteIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/194/7/100/2021/05/26/20/05/efe804ac-ab52-4b31-826c-1abb967464ef.svg',
-        matchingNode: 'wss://supercube.pro'
+        matchingNode: 'wss://kusama.elara.patract.io'
       });
-    } else if (polkadotSetting.apiUrl === 'wss://dot.supercube.pro') {
+    } else if (polkadotSetting.apiUrl === 'wss://rpc.polkadot.io') {
       setCurrentNetwork({
         name: 'PlatON',
         polkadotNetUrl: polkadotSetting.apiUrl,
@@ -88,7 +88,7 @@ export const NetWorkProvider: FC = ({children}) => {
       setCurrentCoinType({
         coinName: 'DOT',
         whiteIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/194/7/100/2021/05/26/20/04/47fc37c2-b813-42c4-9236-86c6e882dbe3.svg',
-        matchingNode: 'wss://dot.supercube.pro'
+        matchingNode: 'wss://rpc.polkadot.io'
       });
     } else if (polkadotSetting.apiUrl === 'wss://chainx.supercube.pro/ws') {
       setCurrentCoinType({

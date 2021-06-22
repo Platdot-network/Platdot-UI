@@ -29,8 +29,8 @@ const blockNumberToDate = async (blockNumber: number) => {
   return timestamp
 };
 
-const tipInAlaya: BigNumber = new BigNumber(0.03)
-const tipInPlaton: BigNumber = new BigNumber(0.5)
+const tipInAlaya: BigNumber = new BigNumber(0.01)
+const tipInPlaton: BigNumber = new BigNumber(0.6)
 const tipInXBTC = 0
 
 export {

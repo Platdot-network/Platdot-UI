@@ -118,10 +118,17 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
           api.tx.system.remark(platonAccount)
         ];
       } else {
-        let remarkParams;
-        currentNetwork.name === 'PlatON'? remarkParams = '4,002': remarkParams = '2,000'
+        let remarkParams: string;
+        let multiAddress: string;
+        if(currentNetwork.name === 'PlatON'){
+          remarkParams = '4,002'
+          multiAddress = '14apznAqUJWjrxCw74dPfr2k5HtP1fakkGyMrrqyEmu2cGE7'
+        }else{
+          remarkParams = '2,000'
+          multiAddress = '15GRULvWBX7rRY4JJpMMUZYuFVBGdEe6dxsZqTEzH67VQ5Yq'
+        }
         param = [
-          api.tx.balances.transferKeepAlive('13uP8o6V3n33UnXKwgvpJrSD9ZPbt4voTyBX4cLzYft66dT2', amountToPrecision),
+          api.tx.balances.transferKeepAlive(multiAddress, amountToPrecision),
           api.tx.system.remark(`${remarkParams},${platonAccount}`)
         ];
         console.log(`${remarkParams},${platonAccount}`)

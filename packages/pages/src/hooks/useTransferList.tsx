@@ -39,10 +39,10 @@ const mapNewRecords = (RecordsList: TransferResultItem[]): TransferItem[] => {
 
 export const formatAddress = (hexAddress: string): string => {
   //@ts-ignore
-  if (Number(window.alaya.chainId) === 210309) {
+  if (Number(window.alaya.chainId) === 100) {
     return toBech32Address('lat', hexAddress);
     //@ts-ignore
-  } else if (Number(window.alaya.chainId) === 201030) {
+  } else if (Number(window.alaya.chainId) === 201018) {
     return toBech32Address('atp', hexAddress);
   } else {
     return '';
