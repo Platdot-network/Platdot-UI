@@ -42,7 +42,7 @@ export const NetWorkProvider: FC = ({children}) => {
     //@ts-ignore
     alaya.on('chainChanged', (chainId: string) => {
       if(Number(chainId) === 201018){
-        saveAndReload({...uiSettings.get(), apiUrl: 'wss://kusama.elara.patract.io'});
+        saveAndReload({...uiSettings.get(), apiUrl: 'wss://kusama-rpc.polkadot.io'});
       }else if(Number(chainId) === 100){
         saveAndReload({...uiSettings.get(), apiUrl: 'wss://rpc.polkadot.io'});
       }
@@ -68,7 +68,7 @@ export const NetWorkProvider: FC = ({children}) => {
   }, [window.alaya]);
 
   useEffect(() => {
-    if (polkadotSetting.apiUrl === 'wss://kusama.elara.patract.io') {
+    if (polkadotSetting.apiUrl === 'wss://kusama-rpc.polkadot.io') {
       setCurrentNetwork({
         name: 'Alaya',
         polkadotNetUrl: polkadotSetting.apiUrl,
@@ -77,7 +77,7 @@ export const NetWorkProvider: FC = ({children}) => {
       setCurrentCoinType({
         coinName: 'KSM',
         whiteIcon: 'https://pic.stackoverflow.wiki/uploadImages/115/194/7/100/2021/05/26/20/05/efe804ac-ab52-4b31-826c-1abb967464ef.svg',
-        matchingNode: 'wss://kusama.elara.patract.io'
+        matchingNode: 'wss://kusama-rpc.polkadot.io'
       });
     } else if (polkadotSetting.apiUrl === 'wss://rpc.polkadot.io') {
       setCurrentNetwork({

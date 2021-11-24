@@ -17,7 +17,7 @@
     "@fortawesome/react-fontawesome": "^0.1.13",
     "@polkadot/api-contract": "^4.1.2-3",
     "@polkadot/extension-dapp": "^0.35.0-beta.54",
-    "@polkadot/ui-settings": "^0.62.2-15",
+    "@polkadot/ui-settings": "^0.86.7",
     "@polkadot/vanitygen": "^0.22.1",
     "detect-browser": "^5.2.0",
     "file-saver": "^2.0.2",

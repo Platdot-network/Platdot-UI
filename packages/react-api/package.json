@@ -22,7 +22,7 @@
     "@babel/runtime": "^7.12.5",
     "@chainx-v2/api": "^0.0.43",
     "@polkadot/extension-dapp": "^0.35.0-beta.54",
-    "@polkadot/ui-settings": "^0.62.2-15",
+    "@polkadot/ui-settings": "^0.86.7",
     "rxjs-compat": "^6.6.3"
   }
 }
