@@ -21,7 +21,7 @@ export default function ({ hash, length = 5, className = '' }: Props): React.Rea
       if (netName === 'Alaya') {
         setUrl(`https://devnetscan.alaya.network/trade-detail?txHash=${hash}`)
       } else {
-        setUrl(`https://scan.alaya.network/trade-detail?txHash=${hash}`)
+        setUrl(`https://scan.platon.network/trade-detail?txHash=${hash}`)
       }
     }
     fetchUrl()
