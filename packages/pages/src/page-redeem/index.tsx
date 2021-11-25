@@ -136,7 +136,7 @@ export default function RedeemContent({className}: Props): React.ReactElement<Pr
             <CardContent
               tokenName={platonUnit}
               tipLabel={t('Redeem amount')}
-              charge={charge}
+              charge={0}
               onClick={redeem}
               buttonText={t('Confirm Redeem')}
               isButtonDisabled={isButtonDisabled}

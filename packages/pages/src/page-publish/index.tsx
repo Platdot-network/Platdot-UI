@@ -167,7 +167,7 @@ export default function PublicContent({className = ''}: Props): React.ReactEleme
             <CardContent
               tokenName={currentCoinType.coinName}
               tipLabel={t('Publish amount')}
-              charge={charge}
+              charge={0}
               onClick={publish}
               buttonText={t('Confirm Publish')}
               isButtonDisabled={isButtonDisabled}
